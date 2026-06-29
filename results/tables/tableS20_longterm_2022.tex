@@ -1,0 +1,44 @@
+{
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\begin{tabular}{l*{6}{c}}
+\toprule
+                    &\multicolumn{2}{c}{Reciprocity: Quadratic} &\multicolumn{2}{c}{Reciprocity: Wind-speed categories}&\multicolumn{2}{c}{Change in Average transfers}\\\cmidrule(lr){2-3}\cmidrule(lr){4-5}\cmidrule(lr){6-7}
+                    &\multicolumn{1}{c}{(1)}         &\multicolumn{1}{c}{(2)}         &\multicolumn{1}{c}{(3)}         &\multicolumn{1}{c}{(4)}         &\multicolumn{1}{c}{(5)}         &\multicolumn{1}{c}{(6)}         \\
+\midrule
+Wind speed (kn)     &       -0.04\sym{*}  &       -0.04\sym{**} &                     &                     &       -1.12\sym{***}&       -1.21         \\
+                    &      (0.02)         &      (0.02)         &                     &                     &      (0.31)         &      (0.86)         \\
+Wind speed (kn) $\times$ Wind speed (kn)&        0.00\sym{*}  &        0.00\sym{**} &                     &                     &        0.00\sym{***}&        0.01         \\
+                    &      (0.00)         &      (0.00)         &                     &                     &      (0.00)         &      (0.00)         \\
+Age (years)         &                     &        0.00         &                     &        0.00         &       -0.02         &        0.03         \\
+                    &                     &      (0.01)         &                     &      (0.01)         &      (0.11)         &      (0.19)         \\
+Female (=1)         &                     &        0.35\sym{**} &                     &        0.34\sym{**} &       -1.06         &       -6.50         \\
+                    &                     &      (0.15)         &                     &      (0.15)         &      (3.51)         &      (3.99)         \\
+Household head (=1) &                     &        0.01         &                     &        0.02         &        1.07         &       -3.00         \\
+                    &                     &      (0.16)         &                     &      (0.16)         &      (2.82)         &      (4.88)         \\
+Single (=1)         &                     &       -0.02         &                     &       -0.00         &       -3.35         &        6.34         \\
+                    &                     &      (0.28)         &                     &      (0.27)         &      (4.34)         &      (7.27)         \\
+Education: Elementary (=1)&                     &        0.06         &                     &        0.06         &       -3.75\sym{*}  &        5.35         \\
+                    &                     &      (0.11)         &                     &      (0.12)         &      (2.07)         &      (3.28)         \\
+Low (<96 kn)        &                     &                     &        0.00         &        0.00         &                     &                     \\
+                    &                     &                     &         (.)         &         (.)         &                     &                     \\
+Medium (Cat 3: 96-112 kn)&                     &                     &       -0.12         &       -0.14         &                     &                     \\
+                    &                     &                     &      (0.10)         &      (0.09)         &                     &                     \\
+High (>=113 kn)     &                     &                     &        0.18         &        0.16         &                     &                     \\
+                    &                     &                     &      (0.12)         &      (0.12)         &                     &                     \\
+L4.Solidarity transfer (0,70)&                     &                     &                     &                     &       -0.71\sym{***}&       -0.50\sym{***}\\
+                    &                     &                     &                     &                     &      (0.07)         &      (0.14)         \\
+Change in expected transfer&                     &                     &                     &                     &        0.35\sym{***}&        0.38\sym{***}\\
+                    &                     &                     &                     &                     &      (0.04)         &      (0.09)         \\
+Stranger (=1)       &                     &                     &                     &                     &       -0.97         &       -1.69         \\
+                    &                     &                     &                     &                     &      (2.90)         &      (3.44)         \\
+Constant            &        1.86         &        1.71         &       -0.09         &       -0.41         &       84.80\sym{***}&       73.48\sym{*}  \\
+                    &      (1.16)         &      (1.08)         &      (0.09)         &      (0.28)         &     (17.09)         &     (42.74)         \\
+\midrule
+N                   &         330         &         330         &         330         &         330         &         266         &          64         \\
+Cluster             &          30         &          30         &          30         &          30         &          30         &          25         \\
+Adjusted R-squared  &       0.006         &       0.021         &       0.004         &       0.018         &       0.524         &       0.546         \\
+F-Test: wind speed and wind speedÃ‚Â²&      3.230*         &     4.022**         &                     &                     &   12.858***         &      2.910*         \\
+F-Test: Medium = high damages&                     &                     &    9.157***         &   11.583***         &                     &                     \\
+\bottomrule
+\end{tabular}
+}

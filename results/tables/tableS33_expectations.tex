@@ -1,0 +1,36 @@
+{
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\begin{tabular}{l*{3}{c}}
+\toprule
+                    &\multicolumn{3}{c}{Full Sample}                                  \\\cmidrule(lr){2-4}
+                    &\multicolumn{1}{c}{(1)}         &\multicolumn{1}{c}{(2)}         &\multicolumn{1}{c}{(3)}         \\
+& \multicolumn{3}{c}{Dependent variable: \(\Delta\) Expected transfer} \\
+\midrule
+Wind speed (kn)     &        0.76\sym{*}  &        0.39         &        0.35         \\
+                    &      (0.42)         &      (0.46)         &      (0.49)         \\
+Wind speed squared  &       -0.00\sym{*}  &       -0.00         &       -0.00         \\
+                    &      (0.00)         &      (0.00)         &      (0.00)         \\
+L4.Expected transfer (0,70)&                     &       -0.85\sym{***}&       -0.85\sym{***}\\
+                    &                     &      (0.05)         &      (0.05)         \\
+Age (years)         &                     &                     &        0.09         \\
+                    &                     &                     &      (0.11)         \\
+Female (=1)         &                     &                     &        3.76         \\
+                    &                     &                     &      (2.69)         \\
+Household head (=1) &                     &                     &        3.60         \\
+                    &                     &                     &      (2.91)         \\
+Single (=1)         &                     &                     &       -3.37         \\
+                    &                     &                     &      (3.72)         \\
+Education: Elementary (=1)&                     &                     &       -0.27         \\
+                    &                     &                     &      (1.86)         \\
+Stranger (=1)       &                     &                     &        2.32         \\
+                    &                     &                     &      (2.06)         \\
+Constant            &      -39.57\sym{*}  &        4.38         &       -2.21         \\
+                    &     (21.22)         &     (22.83)         &     (25.03)         \\
+\midrule
+N                   &         450         &         450         &         450         \\
+Cluster             &          30         &          30         &          30         \\
+F-Test: wind speed and wind speedÃ‚Â²&      3.260*         &       0.725         &       0.499         \\
+Adjusted R-squared  &      -0.001         &       0.391         &       0.390         \\
+\bottomrule
+\end{tabular}
+}

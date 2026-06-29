@@ -1,0 +1,35 @@
+{
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\begin{tabular}{l*{3}{c}}
+\toprule
+                    &\multicolumn{1}{c}{(1)}         &\multicolumn{1}{c}{(2)}         &\multicolumn{1}{c}{(3)}         \\
+\midrule
+Wind speed (kn)     &       -0.67         &       -1.00\sym{**} &       -0.99\sym{**} \\
+                    &      (0.59)         &      (0.45)         &      (0.44)         \\
+Wind speed squared  &        0.00         &        0.00\sym{**} &        0.00\sym{*}  \\
+                    &      (0.00)         &      (0.00)         &      (0.00)         \\
+L4.Solidarity transfer (0,70)&       -0.86\sym{***}&       -0.65\sym{***}&       -0.65\sym{***}\\
+                    &      (0.07)         &      (0.07)         &      (0.07)         \\
+Change in expected transfer&                     &        0.37\sym{***}&        0.38\sym{***}\\
+                    &                     &      (0.04)         &      (0.04)         \\
+Age (years)         &                     &                     &       -0.05         \\
+                    &                     &                     &      (0.07)         \\
+Female (=1)         &                     &                     &       -0.59         \\
+                    &                     &                     &      (2.44)         \\
+Household head (=1) &                     &                     &        0.10         \\
+                    &                     &                     &      (1.98)         \\
+Single (=1)         &                     &                     &       -5.35         \\
+                    &                     &                     &      (3.70)         \\
+Education: Elementary (=1)&                     &                     &       -1.36         \\
+                    &                     &                     &      (2.03)         \\
+Stranger (=1)       &                     &                     &       -0.87         \\
+                    &                     &                     &      (2.55)         \\
+Constant            &       61.92\sym{**} &       71.26\sym{***}&       73.78\sym{***}\\
+                    &     (29.32)         &     (21.92)         &     (21.96)         \\
+\midrule
+N                   &         412         &         412         &         412         \\
+Cluster             &          28         &          28         &          28         \\
+Adjusted R-squared  &       0.382         &       0.534         &       0.531         \\
+\bottomrule
+\end{tabular}
+}

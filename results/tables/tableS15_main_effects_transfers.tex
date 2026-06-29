@@ -1,0 +1,30 @@
+{
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\begin{tabular}{l*{8}{c}}
+\toprule
+                    &\multicolumn{8}{c}{Change in Average transfers}                                                                                                                                \\\cmidrule(lr){2-9}
+                    &\multicolumn{1}{c}{(1)}         &\multicolumn{1}{c}{(2)}         &\multicolumn{1}{c}{(3)}         &\multicolumn{1}{c}{(4)}         &\multicolumn{1}{c}{(5)}         &\multicolumn{1}{c}{(6)}         &\multicolumn{1}{c}{(7)}         &\multicolumn{1}{c}{(8)}         \\
+& \multicolumn{4}{c}{Quadratic specification} & \multicolumn{4}{c}{Dummy specification} \\
+\cmidrule(lr){2-5}\cmidrule(lr){6-9}
+\midrule
+Wind speed (kn)     &       -0.87\sym{**} &       -1.20\sym{***}&       -1.17\sym{***}&       -1.13\sym{***}&                     &                     &                     &                     \\
+                    &      (0.33)         &      (0.28)         &      (0.28)         &      (0.27)         &                     &                     &                     &                     \\
+Wind speed squared  &        0.00\sym{**} &        0.01\sym{***}&        0.01\sym{***}&        0.01\sym{***}&                     &                     &                     &                     \\
+                    &      (0.00)         &      (0.00)         &      (0.00)         &      (0.00)         &                     &                     &                     &                     \\
+Medium (Cat 3: 96-112 kn)&                     &                     &                     &                     &       -7.24\sym{***}&       -8.17\sym{***}&       -7.93\sym{***}&       -7.16\sym{***}\\
+                    &                     &                     &                     &                     &      (1.54)         &      (1.64)         &      (1.74)         &      (1.67)         \\
+High (>=113 kn)     &                     &                     &                     &                     &       -4.86\sym{**} &       -3.98\sym{**} &       -3.83\sym{*}  &       -3.40\sym{*}  \\
+                    &                     &                     &                     &                     &      (2.19)         &      (1.87)         &      (1.97)         &      (1.98)         \\
+L4.Solidarity transfer (0,70)&       -0.87\sym{***}&       -0.66\sym{***}&       -0.66\sym{***}&       -0.66\sym{***}&       -0.88\sym{***}&       -0.67\sym{***}&       -0.67\sym{***}&       -0.67\sym{***}\\
+                    &      (0.07)         &      (0.06)         &      (0.06)         &      (0.07)         &      (0.07)         &      (0.06)         &      (0.06)         &      (0.06)         \\
+Change in expected transfer&                     &        0.37\sym{***}&        0.37\sym{***}&        0.37\sym{***}&                     &        0.36\sym{***}&        0.37\sym{***}&        0.36\sym{***}\\
+                    &                     &      (0.04)         &      (0.04)         &      (0.04)         &                     &      (0.03)         &      (0.04)         &      (0.04)         \\
+\midrule
+N                   &         450         &         450         &         450         &         450         &         450         &         450         &         450         &         450         \\
+Cluster             &          30         &          30         &          30         &          30         &          30         &          30         &          30         &          30         \\
+Adjusted R-squared  &       0.394         &       0.539         &       0.535         &       0.529         &       0.394         &       0.536         &       0.533         &       0.525         \\
+F-Test: wind speed and wind speedÃ‚Â²&    7.923***         &   17.124***         &   15.200***         &   15.601***         &                     &                     &                     &                     \\
+F-Test: medium damages = high damages&                     &                     &                     &                     &      2.025'         &     6.415**         &     4.988**         &     4.458**         \\
+\bottomrule
+\end{tabular}
+}

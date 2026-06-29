@@ -1,0 +1,37 @@
+{
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\begin{tabular}{l*{3}{c}}
+\toprule
+                    &\multicolumn{3}{c}{Average transfers 2012}                       \\\cmidrule(lr){2-4}
+                    &\multicolumn{1}{c}{(1)}         &\multicolumn{1}{c}{(2)}         &\multicolumn{1}{c}{(3)}         \\
+\midrule
+Wind speed (kn)     &        0.25         &        0.47         &        0.47         \\
+                    &      (0.60)         &      (0.38)         &      (0.39)         \\
+Wind speed squared  &       -0.00         &       -0.00         &       -0.00         \\
+                    &      (0.00)         &      (0.00)         &      (0.00)         \\
+Expected transfer (0,70)&                     &        0.52\sym{***}&        0.52\sym{***}\\
+                    &                     &      (0.04)         &      (0.04)         \\
+Age (years)         &                     &                     &        0.15\sym{**} \\
+                    &                     &                     &      (0.06)         \\
+Female (=1)         &                     &                     &        0.31         \\
+                    &                     &                     &      (2.50)         \\
+Household head (=1) &                     &                     &        0.10         \\
+                    &                     &                     &      (2.40)         \\
+Single (=1)         &                     &                     &        1.23         \\
+                    &                     &                     &      (2.03)         \\
+Education: Elementary (=1)&                     &                     &       -2.43         \\
+                    &                     &                     &      (1.76)         \\
+Trust in national government&                     &                     &       -0.71         \\
+                    &                     &                     &      (0.55)         \\
+Wealth index (PCA)  &                     &                     &        0.27         \\
+                    &                     &                     &      (0.62)         \\
+Constant            &       25.00         &       -1.79         &       -5.53         \\
+                    &     (29.86)         &     (18.68)         &     (20.49)         \\
+\midrule
+N                   &         450         &         450         &         450         \\
+Cluster             &          30         &          30         &          30         \\
+Adjusted R-squared  &       0.008         &       0.357         &       0.359         \\
+F-Test: wind speed and wind speedÃ‚Â²&       1.024         &       1.402         &       1.115         \\
+\bottomrule
+\end{tabular}
+}

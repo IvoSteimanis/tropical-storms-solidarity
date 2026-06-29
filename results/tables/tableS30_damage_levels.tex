@@ -1,0 +1,40 @@
+{
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\begin{tabular}{l*{3}{c}}
+\toprule
+                    &\multicolumn{3}{c}{Change in Average transfers}                  \\\cmidrule(lr){2-4}
+                    &\multicolumn{1}{c}{(1)}         &\multicolumn{1}{c}{(2)}         &\multicolumn{1}{c}{(3)}         \\
+\midrule
+5 quantiles of affectedness\_index=2&        0.28         &       -1.13         &       -1.18         \\
+                    &      (2.88)         &      (2.75)         &      (2.72)         \\
+5 quantiles of affectedness\_index=3&       -3.12         &       -4.82\sym{**} &       -4.70\sym{**} \\
+                    &      (2.75)         &      (2.16)         &      (2.17)         \\
+5 quantiles of affectedness\_index=4&       -5.37         &       -4.68         &       -4.51         \\
+                    &      (3.36)         &      (3.11)         &      (3.16)         \\
+5 quantiles of affectedness\_index=5&       -1.95         &       -2.75         &       -2.68         \\
+                    &      (2.08)         &      (1.73)         &      (1.73)         \\
+L4.Solidarity transfer (0,70)&       -0.88\sym{***}&       -0.67\sym{***}&       -0.67\sym{***}\\
+                    &      (0.07)         &      (0.07)         &      (0.07)         \\
+Change in expected transfer&                     &        0.36\sym{***}&        0.37\sym{***}\\
+                    &                     &      (0.04)         &      (0.04)         \\
+Age (years)         &                     &                     &       -0.02         \\
+                    &                     &                     &      (0.07)         \\
+Female (=1)         &                     &                     &       -1.38         \\
+                    &                     &                     &      (2.49)         \\
+Household head (=1) &                     &                     &       -0.06         \\
+                    &                     &                     &      (2.19)         \\
+Single (=1)         &                     &                     &       -4.48         \\
+                    &                     &                     &      (3.49)         \\
+Education: Elementary (=1)&                     &                     &       -1.67         \\
+                    &                     &                     &      (1.81)         \\
+Stranger (=1)       &                     &                     &       -0.18         \\
+                    &                     &                     &      (2.44)         \\
+Constant            &       26.75\sym{***}&       20.71\sym{***}&       23.23\sym{***}\\
+                    &      (2.61)         &      (2.53)         &      (4.37)         \\
+\midrule
+N                   &         450         &         450         &         450         \\
+Cluster             &          30         &          30         &          30         \\
+Adjusted R-squared  &       0.387         &       0.529         &       0.526         \\
+\bottomrule
+\end{tabular}
+}

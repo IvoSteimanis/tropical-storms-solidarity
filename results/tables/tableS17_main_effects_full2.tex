@@ -1,0 +1,39 @@
+{
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\begin{tabular}{l*{3}{c}}
+\toprule
+                    &\multicolumn{3}{c}{Change in Average transfers}                  \\\cmidrule(lr){2-4}
+                    &\multicolumn{1}{c}{(1)}         &\multicolumn{1}{c}{(2)}         &\multicolumn{1}{c}{(3)}         \\
+\midrule
+Low (<96 kn)        &        0.00         &        0.00         &        0.00         \\
+                    &         (.)         &         (.)         &         (.)         \\
+Medium (Cat 3: 96-112 kn)&       -7.24\sym{***}&       -8.17\sym{***}&       -7.93\sym{***}\\
+                    &      (1.54)         &      (1.64)         &      (1.74)         \\
+High (>=113 kn)     &       -4.86\sym{**} &       -3.98\sym{**} &       -3.83\sym{*}  \\
+                    &      (2.19)         &      (1.87)         &      (1.97)         \\
+L4.Solidarity transfer (0,70)&       -0.88\sym{***}&       -0.67\sym{***}&       -0.67\sym{***}\\
+                    &      (0.07)         &      (0.06)         &      (0.06)         \\
+Change in expected transfer&                     &        0.36\sym{***}&        0.37\sym{***}\\
+                    &                     &      (0.03)         &      (0.04)         \\
+Age (years)         &                     &                     &       -0.01         \\
+                    &                     &                     &      (0.07)         \\
+Female (=1)         &                     &                     &       -1.50         \\
+                    &                     &                     &      (2.50)         \\
+Household head (=1) &                     &                     &       -0.17         \\
+                    &                     &                     &      (2.13)         \\
+Single (=1)         &                     &                     &       -4.45         \\
+                    &                     &                     &      (3.46)         \\
+Education: Elementary (=1)&                     &                     &       -1.39         \\
+                    &                     &                     &      (1.79)         \\
+Stranger (=1)       &                     &                     &       -0.04         \\
+                    &                     &                     &      (2.46)         \\
+Constant            &       27.53\sym{***}&       20.66\sym{***}&       22.92\sym{***}\\
+                    &      (2.52)         &      (2.34)         &      (4.63)         \\
+\midrule
+N                   &         450         &         450         &         450         \\
+Cluster             &          30         &          30         &          30         \\
+Adjusted R-squared  &       0.394         &       0.536         &       0.533         \\
+F-Test: medium = high damages&      2.025'         &     6.415**         &     4.988**         \\
+\bottomrule
+\end{tabular}
+}

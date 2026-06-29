@@ -1,0 +1,76 @@
+HEADLINE NUMBERS FOR NCC MANUSCRIPT (GLOBAL)
+Generated: 2026-06-23 18:30:55.993616
+============================================================
+
+1. Global exposure by regime (1950-2015)
+                            regime  cells  pop_M assets_Bn
+                            <char>  <int>  <num>     <num>
+1:             Tropical Storm only 109185 1245.4   32023.2
+2:                     Low (Cat 1)  51556  588.9   27017.7
+3:              Moderate (Cat 2-4)  38112  423.0   21405.7
+4: Moderate, repeated (>=3 events)  15555  335.5   21763.2
+5:            Catastrophic (Cat 5)   1682   39.6    1554.4
+
+2. Global exposure by income tier
+    income_tier  cells  pop_M
+         <char>  <int>  <num>
+1: Lower-middle  47659 1212.3
+2: Upper-middle  51409  852.8
+3:         High 104253  506.4
+4:          Low  12769   60.9
+
+3. Cat 2-4 regime population by income tier
+    income_tier pop_M
+         <char> <num>
+1: Upper-middle 249.3
+2: Lower-middle 248.3
+3:         High 241.4
+4:          Low  19.4
+
+4. Top 15 countries in Cat 2-4 regime
+       ISO  income_tier pop_M
+    <char>       <char> <num>
+ 1:    CHN Upper-middle 203.6
+ 2:    JPN         High 121.4
+ 3:    IND Lower-middle  86.7
+ 4:    USA         High  67.5
+ 5:    PHL Lower-middle  67.0
+ 6:    BGD Lower-middle  39.1
+ 7:    VNM Lower-middle  37.4
+ 8:    MEX Upper-middle  18.4
+ 9:    TWN         High  17.3
+10:    KOR         High  16.7
+11:    MMR Lower-middle  11.8
+12:    CUB Upper-middle  10.6
+13:    MDG          Low  10.0
+14:    DOM Upper-middle   9.7
+15:    HKG         High   8.1
+
+5. Event counts (global)
+  Total events globally 1950-2015: 2713
+  Events reaching Cat 5 (>=137 kn): 90
+  Events peaking at Cat 2-4 (83-136 kn): 963
+
+6. Philippines drill-down
+  Philippine TC-exposed population: 99.6 M
+  Philippine Cat 2-4 regime: 67 M
+  Philippine Cat 5 regime: 27.3 M
+
+7. Inclusive Cat 2-4 exposure (cells with any Cat 2-4 event, even if also Cat 5)
+  Cells: 55281   Population: 797.7 M
+
+------------------------------------------------------------
+MANUSCRIPT-READY PARAGRAPHS
+------------------------------------------------------------
+
+Caption (Figure 1):
+Global tropical cyclone exposure, 1950-2015 (data: TCE-DAT, Geiger et al. 2018; 2015 population baseline). (a) Panay Island study area with Typhoon Haiyan track (red), 30 study villages (blue), and the 40-80 km moderate-exposure annulus (dashed pink). (b) Coastal grid cells (0.1 degree) colored by the maximum Saffir-Simpson category experienced over the period. Cells in the Cat 2-4 wind regime (pink/magenta), where damage heterogeneity within communities is highest, are the regime in which our mechanism operates. (c) Cumulative population (2015 baseline) first exposed to tropical cyclone winds over 1950-2015, by maximum wind regime. Approximately 758.5 million people globally live in the Cat 2-4 regime (267.7 million in low- and lower-middle-income countries). Projected cyclone intensification (Knutson et al. 2020; IPCC AR6) is expected to expand this population.
+
+Intro paragraph (climate scope):
+Globally, approximately 758.5 million coastal residents live in areas that have experienced tropical cyclone winds in the Cat 2-4 range over 1950-2015 (Fig. 1b); 267.7 million of these are in low- and lower-middle-income countries where communities rely primarily on informal networks for post-disaster risk sharing.
+
+Discussion paragraph:
+Globally, around 758.5 million residents live in areas that have experienced the Cat 2-4 wind regime where the mechanism we document is plausibly operative (Fig. 1b,c). Of these, 267.7 million are in low- and lower-middle-income countries where informal risk-sharing networks are the primary safety net. Projected intensification of tropical cyclones under climate change (Knutson et al. 2020; IPCC AR6 Ch11) is expected to expand the population exposed to this regime, while aid-attention allocation continues to concentrate on the most visibly devastated areas.
+
+Cover letter sentence:
+Around 758.5 million coastal residents globally live in areas historically exposed to the Cat 2-4 wind regime in which we identify this mechanism; 267.7 million of these are in low- and lower-middle-income countries.

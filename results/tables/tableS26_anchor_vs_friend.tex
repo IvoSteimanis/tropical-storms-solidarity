@@ -1,0 +1,29 @@
+{
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\begin{tabular}{l*{8}{c}}
+\toprule
+                    &\multicolumn{4}{c}{Quadratic specification}                                            &\multicolumn{4}{c}{Levels specification}                                               \\\cmidrule(lr){2-5}\cmidrule(lr){6-9}
+                    &\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}&\multicolumn{1}{c}{(5)}&\multicolumn{1}{c}{(6)}&\multicolumn{1}{c}{(7)}&\multicolumn{1}{c}{(8)}\\
+                    &\multicolumn{1}{c}{Full sample}&\multicolumn{1}{c}{IPW}&\multicolumn{1}{c}{Invitees}&\multicolumn{1}{c}{Randomly invited}&\multicolumn{1}{c}{Full sample}&\multicolumn{1}{c}{IPW}&\multicolumn{1}{c}{Invitees}&\multicolumn{1}{c}{Randomly invited}\\
+\midrule
+Wind speed (kn)     &       -1.17\sym{***}&       -0.75\sym{*}  &       -0.99\sym{**} &       -1.42\sym{**} &                     &                     &                     &                     \\
+                    &      (0.28)         &      (0.43)         &      (0.38)         &      (0.57)         &                     &                     &                     &                     \\
+Wind speed squared  &        0.01\sym{***}&        0.00         &        0.00\sym{**} &        0.01\sym{**} &                     &                     &                     &                     \\
+                    &      (0.00)         &      (0.00)         &      (0.00)         &      (0.00)         &                     &                     &                     &                     \\
+Medium (Cat 3: 96-112 kn)&                     &                     &                     &                     &       -7.93\sym{***}&       -7.10\sym{***}&       -6.41\sym{***}&      -10.48\sym{***}\\
+                    &                     &                     &                     &                     &      (1.74)         &      (2.35)         &      (1.68)         &      (3.00)         \\
+High (>=113 kn)     &                     &                     &                     &                     &       -3.83\sym{*}  &       -2.53         &       -3.52         &       -5.29\sym{*}  \\
+                    &                     &                     &                     &                     &      (1.97)         &      (2.07)         &      (2.33)         &      (2.66)         \\
+L4.Solidarity transfer (0,70)&       -0.66\sym{***}&       -0.69\sym{***}&       -0.62\sym{***}&       -0.75\sym{***}&       -0.67\sym{***}&       -0.70\sym{***}&       -0.63\sym{***}&       -0.76\sym{***}\\
+                    &      (0.06)         &      (0.08)         &      (0.07)         &      (0.12)         &      (0.06)         &      (0.08)         &      (0.07)         &      (0.11)         \\
+Change in expected transfer&        0.37\sym{***}&        0.39\sym{***}&        0.35\sym{***}&        0.44\sym{***}&        0.37\sym{***}&        0.39\sym{***}&        0.34\sym{***}&        0.44\sym{***}\\
+                    &      (0.04)         &      (0.04)         &      (0.04)         &      (0.07)         &      (0.04)         &      (0.04)         &      (0.04)         &      (0.07)         \\
+\midrule
+N                   &         450         &         448         &         303         &         146         &         450         &         448         &         303         &         146         \\
+Cluster             &          30         &          30         &          30         &          30         &          30         &          30         &          30         &          30         \\
+Adjusted R-squared  &       0.535         &       0.557         &       0.505         &       0.586         &       0.533         &       0.559         &       0.502         &       0.584         \\
+F-Test: wind speed and wind speedÃ‚Â²&   15.200***         &      2.718*         &     5.056**         &     3.939**         &                     &                     &                     &                     \\
+F-Test: medium damages = high damages&                     &                     &                     &                     &     4.988**         &     4.214**         &      2.267'         &      3.736*         \\
+\bottomrule
+\end{tabular}
+}

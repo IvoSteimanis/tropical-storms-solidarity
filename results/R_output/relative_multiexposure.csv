@@ -1,0 +1,14 @@
+metric,value,unit,note
+mod_cat24_pop_exclusive_M,758.5,million people,"max regime Cat 2-4, no Cat 5"
+mod_cat24_lmic_M,267.7,million people,low + lower-middle income
+tc_exposed_total_M,2632.4,million people,"any TC wind ever, all regimes"
+mod_cat24_pop_inclusive_M,797.7,million people,any Cat 2-4 event incl. Cat 5 cells
+world_pop_2015_M,7379,million people,UN WPP 2015 mid-year (external constant)
+share_of_world_pct,10.28,percent,Cat 2-4 regime / world pop 2015
+share_of_tc_exposed_pct,28.81,percent,Cat 2-4 regime / all TC-exposed
+multiexp_ge3x_pop_M,335.5,million people,share 44.2% of regime
+multiexp_1x_pop_M,289.4,million people,share 38.2% of regime
+multiexp_2x_pop_M,133.6,million people,share 17.6% of regime
+unique_persons_M,758.5,million people,"Cat 2-4 regime, counted once"
+person_exposures_M,2753.5,person-exposures (M),sum over Cat 2-4 events in regime
+mean_exposures_per_person,3.63,events/person,person-exposures / unique persons

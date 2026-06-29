@@ -1,0 +1,31 @@
+{
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\begin{tabular}{l*{6}{c}}
+\toprule
+                    &\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}&\multicolumn{1}{c}{(5)}&\multicolumn{1}{c}{(6)}\\
+                    &\multicolumn{1}{c}{Satisfaction Aid}&\multicolumn{1}{c}{Mismanagement Aid}&\multicolumn{1}{c}{Corruption Aid}&\multicolumn{1}{c}{Support Volume}&\multicolumn{1}{c}{Support Source}&\multicolumn{1}{c}{Network Damage}\\
+\midrule
+Wind speed (kn)     &       -1.36\sym{**} &        0.46         &        1.25\sym{***}&       -1.28\sym{**} &        0.89\sym{**} &       -1.08         \\
+                    &      (0.66)         &      (0.35)         &      (0.44)         &      (0.61)         &      (0.39)         &      (0.86)         \\
+Wind speed (kn) $\times$ Wind speed (kn)&        0.01\sym{*}  &       -0.00         &       -0.01\sym{**} &        0.01\sym{**} &       -0.00\sym{**} &        0.01\sym{*}  \\
+                    &      (0.00)         &      (0.00)         &      (0.00)         &      (0.00)         &      (0.00)         &      (0.00)         \\
+Age (years)         &       -0.09         &       -0.08         &       -0.02         &       -0.24\sym{**} &       -0.06         &       -0.25\sym{*}  \\
+                    &      (0.10)         &      (0.06)         &      (0.08)         &      (0.11)         &      (0.06)         &      (0.12)         \\
+Female (=1)         &        1.06         &       -2.33         &       -1.72         &        2.20         &       -0.14         &       -2.12         \\
+                    &      (2.65)         &      (2.27)         &      (2.76)         &      (3.07)         &      (2.01)         &      (2.71)         \\
+Household head (=1) &        2.14         &        0.06         &       -1.77         &       -3.66         &        0.24         &       -1.32         \\
+                    &      (2.26)         &      (2.30)         &      (2.10)         &      (2.46)         &      (1.61)         &      (2.89)         \\
+Single (=1)         &       -4.36         &        3.85         &        5.21         &       -0.90         &        0.87         &        6.36         \\
+                    &      (5.33)         &      (4.49)         &      (5.35)         &      (5.90)         &      (1.77)         &      (4.86)         \\
+Education: Elementary (=1)&        0.51         &       -0.79         &       -0.73         &       -1.81         &        0.02         &       -0.24         \\
+                    &      (2.34)         &      (1.65)         &      (2.11)         &      (2.69)         &      (1.29)         &      (2.39)         \\
+Constant            &      131.55\sym{***}&       12.08         &      -37.53         &       89.96\sym{***}&       12.01         &       65.96         \\
+                    &     (32.23)         &     (17.51)         &     (22.40)         &     (29.63)         &     (19.69)         &     (41.34)         \\
+\midrule
+N                   &         447         &         447         &         447         &         447         &         447         &         447         \\
+Cluster             &          30         &          30         &          30         &          30         &          30         &          30         \\
+Adjusted R-squared  &       0.006         &       0.000         &       0.028         &       0.138         &       0.073         &       0.365         \\
+F-Test: wind speed and wind speedÃ‚Â²&       2.277         &       1.918         &   14.083***         &   27.288***         &    7.179***         &   57.692***         \\
+\bottomrule
+\end{tabular}
+}

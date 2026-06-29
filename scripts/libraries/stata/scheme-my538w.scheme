@@ -1,0 +1,13 @@
+#include s2color
+#include 538w
+
+color	label				black
+color	key_label			black
+color	tick_label			black
+color	minortick_label		black
+
+gsize heading				large
+gsize label					medium
+gsize key_label				medium
+gsize tick_label			medsmall
+gsize minortick_label		medsmall

@@ -1,0 +1,36 @@
+{
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\begin{tabular}{l*{1}{c}}
+\toprule
+            &\multicolumn{1}{c}{(1)}\\
+            &\multicolumn{1}{c}{Change in transfers}\\
+\midrule
+Wind speed (kn)&       -1.17\sym{***}\\
+            &      (0.29)         \\
+\addlinespace
+Wind speed squared&        0.01\sym{***}\\
+            &      (0.00)         \\
+\addlinespace
+Vulnerability index (SD)&       30.28\sym{*}  \\
+            &     (16.72)         \\
+\addlinespace
+Wind speed {\(\times\)} Vulnerability&       -0.58\sym{*}  \\
+            &      (0.33)         \\
+\addlinespace
+Wind speed squared {\(\times\)} Vulnerability&        0.00         \\
+            &      (0.00)         \\
+\addlinespace
+Lagged solidarity transfer&       -0.67\sym{***}\\
+            &      (0.06)         \\
+\addlinespace
+Change in expected transfer&        0.37\sym{***}\\
+            &      (0.04)         \\
+\midrule
+N           &         450         \\
+Clusters    &          30         \\
+Adjusted R-squared&       0.536         \\
+F: wind-vulnerability interaction&        2.44         \\
+p: wind-vulnerability interaction&       0.104         \\
+\bottomrule
+\end{tabular}
+}

@@ -1,0 +1,32 @@
+{
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\begin{tabular}{l*{2}{c}}
+\toprule
+                    &\multicolumn{2}{c}{Aid Satisfaction}       \\\cmidrule(lr){2-3}
+                    &\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}\\
+                    &\multicolumn{1}{c}{Not severe damage}&\multicolumn{1}{c}{Severely damaged}\\
+\midrule
+Wind speed (kn)     &       -0.98         &       -2.65         \\
+                    &      (0.79)         &      (1.63)         \\
+Wind speed (kn) $\times$ Wind speed (kn)&        0.00         &        0.01         \\
+                    &      (0.00)         &      (0.01)         \\
+Age (years)         &       -0.13         &       -0.01         \\
+                    &      (0.14)         &      (0.19)         \\
+Female (=1)         &        3.52         &       -5.92         \\
+                    &      (2.60)         &      (4.38)         \\
+Household head (=1) &        7.39\sym{**} &       -8.42\sym{**} \\
+                    &      (2.80)         &      (4.04)         \\
+Single (=1)         &       -7.85         &        0.61         \\
+                    &      (7.60)         &      (9.28)         \\
+Education: Elementary (=1)&       -0.66         &        2.32         \\
+                    &      (3.03)         &      (4.19)         \\
+Constant            &      109.82\sym{***}&      193.39\sym{**} \\
+                    &     (37.99)         &     (75.83)         \\
+\midrule
+N                   &         284         &         163         \\
+Cluster             &          29         &          22         \\
+Adjusted R-squared  &       0.007         &       0.021         \\
+F-Test: wind speed and wind speedÃ‚Â²&       0.794         &       1.320         \\
+\bottomrule
+\end{tabular}
+}

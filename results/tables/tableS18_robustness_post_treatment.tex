@@ -1,0 +1,33 @@
+{
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\begin{tabular}{l*{4}{c}}
+\toprule
+                    &\multicolumn{4}{c}{Change in Average transfers}                                        \\\cmidrule(lr){2-5}
+                    &\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}\\
+                    &\multicolumn{1}{c}{Quadratic}&\multicolumn{1}{c}{Quadratic (IPW)}&\multicolumn{1}{c}{Categorical}&\multicolumn{1}{c}{Categorical (IPW)}\\
+\midrule
+Wind speed (kn)     &       -1.24\sym{***}&       -1.21\sym{***}&                     &                     \\
+                    &      (0.28)         &      (0.27)         &                     &                     \\
+Wind speed squared  &        0.01\sym{***}&        0.01\sym{***}&                     &                     \\
+                    &      (0.00)         &      (0.00)         &                     &                     \\
+Medium (Cat 3: 96-112 kn)&                     &                     &       -8.22\sym{***}&       -7.46\sym{***}\\
+                    &                     &                     &      (1.77)         &      (1.73)         \\
+High (>=113 kn)     &                     &                     &       -3.72\sym{*}  &       -3.33         \\
+                    &                     &                     &      (1.96)         &      (1.98)         \\
+L4.Solidarity transfer (0,70)&       -0.66\sym{***}&       -0.66\sym{***}&       -0.67\sym{***}&       -0.67\sym{***}\\
+                    &      (0.07)         &      (0.07)         &      (0.06)         &      (0.06)         \\
+Change in expected transfer&        0.37\sym{***}&        0.37\sym{***}&        0.37\sym{***}&        0.36\sym{***}\\
+                    &      (0.04)         &      (0.04)         &      (0.04)         &      (0.04)         \\
+Change in trust national government&       -1.25\sym{**} &       -1.16\sym{*}  &       -1.18\sym{*}  &       -1.07\sym{*}  \\
+                    &      (0.58)         &      (0.61)         &      (0.58)         &      (0.62)         \\
+Change in wealth index (PCA)&       -0.60         &       -0.55         &       -0.57         &       -0.51         \\
+                    &      (0.69)         &      (0.70)         &      (0.68)         &      (0.69)         \\
+\midrule
+N                   &         450         &         450         &         450         &         450         \\
+Cluster             &          30         &          30         &          30         &          30         \\
+Adjusted R-squared  &       0.538         &       0.530         &       0.534         &       0.526         \\
+F-Test: wind speed and wind speedÃ‚Â²&   15.978***         &   16.406***         &                     &                     \\
+F-Test: medium = high damages&                     &                     &     6.132**         &     5.380**         \\
+\bottomrule
+\end{tabular}
+}
