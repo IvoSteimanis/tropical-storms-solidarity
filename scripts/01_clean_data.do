@@ -1,5 +1,5 @@
 /*==============================================================================
-Project:     Moderate disaster exposure divides communities; severe exposure does not
+Project:     Moderate tropical cyclone exposure erodes solidarity needed for recovery
 File:        01_clean_data.do
 Purpose:     Clean and construct analysis variables from panel dataset
 Input:       PHI_Panel_12_16_22.dta

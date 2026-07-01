@@ -1,5 +1,5 @@
 /*==============================================================================
-Project:     Moderate disaster exposure divides communities; severe exposure does not
+Project:     Moderate tropical cyclone exposure erodes solidarity needed for recovery
 File:        03_analysis_SI.do
 Purpose:     Reproduce all results reported in the SI
 Input:       analysis_rdy.dta, litfe_u_shape.dta

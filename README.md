@@ -1,10 +1,10 @@
-# Replication Package: Moderate disasters divide communities; severe disasters do not
+# Replication Package: Moderate tropical cyclone exposure erodes solidarity needed for recovery
 
-[![DOI](https://zenodo.org/badge/1064614297.svg)](https://doi.org/10.5281/zenodo.18983676)
+[![DOI](https://zenodo.org/badge/1283895403.svg)](https://doi.org/10.5281/zenodo.21099059)
 
 ## Overview
 
-This package contains the code and data required to replicate the findings of "Moderate disaster exposure divides communities; severe exposure does not" by Ivo Steimanis, Maximilian Burger, Bernd Hayo, Andreas Landmann, and Bjorn Vollan.
+This package contains the code and data required to replicate the findings of "Moderate tropical cyclone exposure erodes solidarity needed for recovery" by Ivo Steimanis, Maximilian Burger, Bernd Hayo, Andreas Landmann, and Bjorn Vollan.
 
 The analysis combines a rare panel dataset (2012, 2016, 2022) with a lab-in-the-field experiment to investigate the long-term effects of Super Typhoon Haiyan on solidarity and prosocial behavior in the Philippines. The global tropical-cyclone exposure analysis uses the TCE-DAT dataset (Geiger et al. 2018) with HYDE 3.2 population data.
 
