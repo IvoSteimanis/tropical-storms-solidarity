@@ -2,7 +2,7 @@
 * OVERVIEW
 *-------------------------------------------------------------------------------------------------------
 *   This script generates tables and figures reported in the manuscript and SOM of the paper:
-*   "Moderate disaster exposure divides communities; severe exposure does not"
+*   "Moderate tropical cyclone exposure erodes solidarity needed for recovery"
 *	Authors: Ivo Steimanis, Maximilian Burger, Bernd Hayo, Andreas Landmann, and Björn Vollan
 *   All experimental data are stored in /data
 *   All figures reported in the main manuscript and SOM are outputted to /results/figures

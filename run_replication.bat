@@ -1,7 +1,6 @@
 @echo off
 REM ============================================================================
-REM  Replication driver -- "Moderate disaster exposure divides communities;
-REM                         severe exposure does not"
+REM  Replication driver -- "Moderate tropical cyclone exposure erodes solidarity needed for recovery"
 REM
 REM  Runs the Stata pipeline (run.do) FIRST, then the R pipeline (run_R.R).
 REM  ORDER MATTERS: the R rebuilds of Figures 2, 3 and 5 read CSV files that

@@ -1,5 +1,5 @@
 # run_R.R — Master R script for the global tropical-cyclone exposure analysis
-# Part of: "Moderate disaster exposure divides communities; severe exposure does not"
+# Part of: "Moderate tropical cyclone exposure erodes solidarity needed for recovery"
 # Authors: Ivo Steimanis, Maximilian Burger, Bernd Hayo, Andreas Landmann, Bjorn Vollan
 #
 # Figures 1 and 4 are independent of Stata; Figures 2 and 3 re-plot Stata margin
