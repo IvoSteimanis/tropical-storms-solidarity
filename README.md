@@ -1,6 +1,6 @@
 # Replication Package: Moderate tropical cyclone exposure erodes solidarity needed for recovery
 
-[![DOI](https://zenodo.org/badge/1283895403.svg)](https://doi.org/10.5281/zenodo.21099059)
+[![https://zenodo.org/badge/1283895403.svg](https://doi.org/10.5281/zenodo.21099059)
 
 ## Overview
 
