@@ -779,7 +779,7 @@ eststo hetcont: reg d_mean_transfer c.windspeed_predicted##c.windspeed_predicted
 testparm c.windspeed_predicted#c.vuln_cont c.windspeed_predicted#c.windspeed_predicted#c.vuln_cont
 estadd local Fint = "`: di %4.2f r(F)'"
 estadd local pint = "`: di %5.3f r(p)'"
-esttab hetcont using "$working_ANALYSIS/results/tables/tableS20_het_continuous.tex", ///
+esttab hetcont using "$working_ANALYSIS/results/tables/table_het_continuous.tex", ///
     se(%4.2f) b(%4.2f) booktabs replace nonotes ///
     keep(windspeed_predicted c.windspeed_predicted#c.windspeed_predicted vuln_cont c.windspeed_predicted#c.vuln_cont c.windspeed_predicted#c.windspeed_predicted#c.vuln_cont L4.mean_transfer d_exp_transfer) ///
     order(windspeed_predicted c.windspeed_predicted#c.windspeed_predicted vuln_cont c.windspeed_predicted#c.vuln_cont c.windspeed_predicted#c.windspeed_predicted#c.vuln_cont L4.mean_transfer d_exp_transfer) ///
@@ -787,7 +787,7 @@ esttab hetcont using "$working_ANALYSIS/results/tables/tableS20_het_continuous.t
     mtitles("Change in transfers") ///
     stats(N N_clust r2_a Fint pint, labels("N" "Clusters" "Adjusted R-squared" "F: wind-vulnerability interaction" "p: wind-vulnerability interaction") fmt(%9.0fc %9.0fc %9.3f %s %s)) ///
     star(* 0.10 ** 0.05 *** 0.01)
-capture copy "$working_ANALYSIS/results/tables/tableS20_het_continuous.tex" "$working_ANALYSIS/../submission/2026 - NCC/tables/tableS20_het_continuous.tex", replace
+capture copy "$working_ANALYSIS/results/tables/table_het_continuous.tex" "$working_ANALYSIS/../submission/2026 - NCC/tables/table_het_continuous.tex", replace
 
 * Heterogeneity tests. PRIMARY = continuous interaction of the wind-speed quadratic
 * with the continuous vulnerability index (vuln_cont): the U-shape deepens with
@@ -1934,5 +1934,230 @@ qui reg windspeed_predicted $balance1 if year==2012 & returner==1, cluster(sessi
 testparm $balance1
 di as result "Continuous wind-gradient joint orthogonality F-test: F=" %6.3f r(F) "  p=" %6.4f r(p)
 di as result _n "TABLE S36 DONE"
+
+* ============================================================================
+* Table S37 -- wild cluster bootstrap-t across the published model ladder
+* ----------------------------------------------------------------------------
+* With 30 village clusters, analytic cluster-robust inference is anti-conservative
+* (Cameron, Gelbach & Miller 2008). This table attaches wild cluster bootstrap-t
+* (Rademacher weights, null imposed, 9,999 replications, clustered and
+* bootstrap-clustered by village) to every column of Tables S15 and S20,
+* alongside the analytic p-value and the Lind-Mehlum U-test.
+*
+* Reads: the quadratic specification is robust throughout (bootstrap p 0.009-0.018);
+* the categorical specification is not (0.064-0.129), because the moderate category
+* is identified off only two villages. That is the same limitation flagged in the
+* Methods, now quantified rather than asserted.
+*
+* NOTE: this block also supplies the bootstrap figure quoted in the Methods for the
+* 2016 transfers model (Table S15 col 3). Do not quote a bootstrap p-value in the
+* manuscript that this table does not produce.
+* ============================================================================
+di as result _n "=== TABLE S37: wild cluster bootstrap-t ladder ==="
+
+* -- rebuild the estimation sample independently of upstream state --
+use "${working_ANALYSIS}/processed/analysis_rdy.dta", clear
+merge m:1 session year using "${working_ANALYSIS}/data/windspeed_predicted.dta", keep(1 3) nogen
+bys session: egen _ws = max(windspeed_predicted)
+replace windspeed_predicted = _ws if missing(windspeed_predicted)
+drop _ws
+sort panel_id year
+tsset panel_id year
+capture drop windspeed_sqr
+gen windspeed_sqr = windspeed_predicted^2
+
+local IMB16 age gender hh_head single edu_1 stranger
+local IMB22 age gender hh_head single edu_1
+local BOPT  cluster(session) reps(9999) seed(12345) nograph
+
+matrix S37 = J(12, 6, .)
+matrix colnames S37 = N Clusters p_analytic F_boot p_boot p_utest
+matrix rownames S37 = S15q1 S15q2 S15q3 S15q4 S15d5 S15d6 S15d7 S15d8 S20q1 S20q2 S20d5 S20d6
+
+local r = 0
+
+* ---- Table S15, quadratic specification (cols 1-4) ----
+forvalues k = 1/4 {
+    if `k'==1              local spec "l4.mean_transfer"
+    if `k'==2              local spec "l4.mean_transfer d_exp_transfer"
+    if inlist(`k',3,4)     local spec "l4.mean_transfer d_exp_transfer `IMB16'"
+    if `k'==4              local wt "[pweight=ipw_return]"
+    else                   local wt ""
+    local ++r
+    qui reg d_mean_transfer windspeed_predicted windspeed_sqr `spec' `wt', vce(cluster session)
+    matrix S37[`r',1] = e(N)
+    matrix S37[`r',2] = e(N_clust)
+    qui testparm windspeed_predicted windspeed_sqr
+    matrix S37[`r',3] = r(p)
+    qui boottest windspeed_predicted windspeed_sqr, `BOPT'
+    matrix S37[`r',4] = r(F)
+    matrix S37[`r',5] = r(p)
+    qui reg d_mean_transfer windspeed_predicted windspeed_sqr `spec' `wt', vce(cluster session)
+    capture qui utest windspeed_predicted windspeed_sqr
+    if !_rc matrix S37[`r',6] = r(p)
+    di "  S15 quad col `k': analytic p=" %6.4f S37[`r',3] "  boot p=" %6.4f S37[`r',5]
+}
+
+* ---- Table S15, categorical specification (cols 5-8) ----
+* ib2 base (moderate) so the coefficient on 3.ws_cat3 IS the medium-vs-high
+* contrast, which lets boottest test it directly without constraint syntax.
+forvalues k = 5/8 {
+    if `k'==5              local spec "l4.mean_transfer"
+    if `k'==6              local spec "l4.mean_transfer d_exp_transfer"
+    if inlist(`k',7,8)     local spec "l4.mean_transfer d_exp_transfer `IMB16'"
+    if `k'==8              local wt "[pweight=ipw_return]"
+    else                   local wt ""
+    local ++r
+    qui reg d_mean_transfer ib1.ws_cat3 `spec' `wt', vce(cluster session)
+    matrix S37[`r',1] = e(N)
+    matrix S37[`r',2] = e(N_clust)
+    qui testparm 2.ws_cat3 3.ws_cat3
+    matrix S37[`r',3] = r(p)
+    qui boottest 2.ws_cat3 3.ws_cat3, `BOPT'
+    matrix S37[`r',4] = r(F)
+    matrix S37[`r',5] = r(p)
+    * medium vs high, bootstrapped: refit with moderate as the omitted category
+    qui reg d_mean_transfer ib2.ws_cat3 `spec' `wt', vce(cluster session)
+    capture qui boottest 3.ws_cat3, `BOPT'
+    if !_rc matrix S37[`r',6] = r(p)
+    di "  S15 dummy col `k': analytic p=" %6.4f S37[`r',3] "  boot p=" %6.4f S37[`r',5] "  boot med-vs-high p=" %6.4f S37[`r',6]
+}
+
+* ---- Table S20, 2022 reciprocity ----
+forvalues k = 1/2 {
+    if `k'==1 local spec ""
+    if `k'==2 local spec "`IMB22'"
+    local ++r
+    qui reg z_recip windspeed_predicted windspeed_sqr `spec' if particip_12_16_22==1, vce(cluster session)
+    matrix S37[`r',1] = e(N)
+    matrix S37[`r',2] = e(N_clust)
+    qui testparm windspeed_predicted windspeed_sqr
+    matrix S37[`r',3] = r(p)
+    qui boottest windspeed_predicted windspeed_sqr, `BOPT'
+    matrix S37[`r',4] = r(F)
+    matrix S37[`r',5] = r(p)
+    qui reg z_recip windspeed_predicted windspeed_sqr `spec' if particip_12_16_22==1, vce(cluster session)
+    capture qui utest windspeed_predicted windspeed_sqr
+    if !_rc matrix S37[`r',6] = r(p)
+    di "  S20 quad col `k': analytic p=" %6.4f S37[`r',3] "  boot p=" %6.4f S37[`r',5]
+}
+forvalues k = 1/2 {
+    if `k'==1 local spec ""
+    if `k'==2 local spec "`IMB22'"
+    local ++r
+    qui reg z_recip ib1.ws_cat3 `spec' if particip_12_16_22==1, vce(cluster session)
+    matrix S37[`r',1] = e(N)
+    matrix S37[`r',2] = e(N_clust)
+    qui testparm 2.ws_cat3 3.ws_cat3
+    matrix S37[`r',3] = r(p)
+    qui boottest 2.ws_cat3 3.ws_cat3, `BOPT'
+    matrix S37[`r',4] = r(F)
+    matrix S37[`r',5] = r(p)
+    qui reg z_recip ib2.ws_cat3 `spec' if particip_12_16_22==1, vce(cluster session)
+    capture qui boottest 3.ws_cat3, `BOPT'
+    if !_rc matrix S37[`r',6] = r(p)
+    di "  S20 dummy col `k': analytic p=" %6.4f S37[`r',3] "  boot p=" %6.4f S37[`r',5]
+}
+
+matrix list S37, format(%9.4f)
+
+* -- machine-readable echo of the two figures quoted in the manuscript --
+di as result _n "MANUSCRIPT FIGURES:"
+di as result "  2016 transfers (S15 col 3): F(2,29) = " %6.3f S37[3,4] ", boot p = " %6.4f S37[3,5]
+di as result "  2022 reciprocity (S20 col 2): F(2,29) = " %6.3f S37[10,4] ", boot p = " %6.4f S37[10,5]
+
+esttab matrix(S37, fmt(%9.0f %9.0f %9.4f %9.3f %9.4f %9.4f)) ///
+    using "${working_ANALYSIS}/results/tables/tableS37_boottest_ladder.tex", ///
+    mlabels(none) nonumbers ///
+    collabels("N" "Villages" "Analytic \$p\$" "Bootstrap \$F\$" "Bootstrap \$p\$" "U-test / med-vs-high \$p\$") ///
+    varlabels(S15q1 "Quadratic, baseline transfers only" ///
+              S15q2 "Quadratic, + expected transfers" ///
+              S15q3 "Quadratic, + covariates (primary)" ///
+              S15q4 "Quadratic, + covariates, IPW" ///
+              S15d5 "Categorical, baseline transfers only" ///
+              S15d6 "Categorical, + expected transfers" ///
+              S15d7 "Categorical, + covariates" ///
+              S15d8 "Categorical, + covariates, IPW" ///
+              S20q1 "Reciprocity 2022, quadratic" ///
+              S20q2 "Reciprocity 2022, quadratic + covariates" ///
+              S20d5 "Reciprocity 2022, categorical" ///
+              S20d6 "Reciprocity 2022, categorical + covariates") ///
+    booktabs replace
+di as result _n "TABLE S37 DONE"
+
+* ============================================================================
+* Table S38 -- does the quadratic improve on a linear specification?
+* ----------------------------------------------------------------------------
+* PNAS review asked that we "present the simpler linear specification first, test
+* whether adding the quadratic term improves fit, and, if not, acknowledge that
+* the data do not support nonlinearity." This table does exactly that, on the
+* wind-speed metric, for every rung of the Table S15 quadratic ladder.
+*
+* Fit statistics (AIC/BIC/LR) come from the plain OLS refit: the likelihood does
+* not depend on the variance estimator, and estat ic/lrtest refuse after
+* vce(cluster). Inference on the quadratic term uses the clustered fit and the
+* wild cluster bootstrap, which is the number that should be quoted.
+* ============================================================================
+di as result _n "=== TABLE S38: linear vs quadratic ==="
+
+matrix S38 = J(4, 6, .)
+matrix colnames S38 = adjR2_lin adjR2_quad dAIC dBIC LR_p boot_p_sq
+matrix rownames S38 = L1 L2 L3 L4
+
+forvalues k = 1/4 {
+    if `k'==1          local spec "l4.mean_transfer"
+    if `k'==2          local spec "l4.mean_transfer d_exp_transfer"
+    if inlist(`k',3,4) local spec "l4.mean_transfer d_exp_transfer `IMB16'"
+    if `k'==4          local wt "[pweight=ipw_return]"
+    else               local wt ""
+
+    * -- adjusted R2 from the clustered fits (as reported in Table S15) --
+    qui reg d_mean_transfer windspeed_predicted `spec' `wt', vce(cluster session)
+    matrix S38[`k',1] = e(r2_a)
+    qui reg d_mean_transfer windspeed_predicted windspeed_sqr `spec' `wt', vce(cluster session)
+    matrix S38[`k',2] = e(r2_a)
+
+    * -- wild cluster bootstrap on the quadratic term alone (the nested test) --
+    qui boottest windspeed_sqr, `BOPT'
+    matrix S38[`k',6] = r(p)
+
+    * -- AIC/BIC/LR from plain OLS refits (unweighted only) --
+    if `k' != 4 {
+        qui reg d_mean_transfer windspeed_predicted `spec'
+        capture qui estat ic
+        if !_rc {
+            matrix _S = r(S)
+            local aic_l = _S[1,5]
+            local bic_l = _S[1,6]
+        }
+        estimates store _lin`k'
+        qui reg d_mean_transfer windspeed_predicted windspeed_sqr `spec'
+        capture qui estat ic
+        if !_rc {
+            matrix _S = r(S)
+            matrix S38[`k',3] = _S[1,5] - `aic_l'
+            matrix S38[`k',4] = _S[1,6] - `bic_l'
+        }
+        estimates store _quad`k'
+        capture qui lrtest _lin`k' _quad`k'
+        if !_rc matrix S38[`k',5] = r(p)
+    }
+    di "  ladder `k': adjR2 " %6.4f S38[`k',1] " -> " %6.4f S38[`k',2] ///
+       "   dAIC " %7.2f S38[`k',3] "   dBIC " %7.2f S38[`k',4] ///
+       "   LR p " %6.4f S38[`k',5] "   boot p(sq) " %6.4f S38[`k',6]
+}
+
+matrix list S38, format(%9.4f)
+
+esttab matrix(S38, fmt(%9.4f %9.4f %9.2f %9.2f %9.4f %9.4f)) ///
+    using "${working_ANALYSIS}/results/tables/tableS38_linear_vs_quadratic.tex", ///
+    mlabels(none) nonumbers ///
+    collabels("Adj. \$R^2\$ linear" "Adj. \$R^2\$ quadratic" "\$\Delta\$AIC" "\$\Delta\$BIC" "LR test \$p\$" "Bootstrap \$p\$, quadratic term") ///
+    varlabels(L1 "Baseline transfers only" ///
+              L2 "+ expected transfers" ///
+              L3 "+ covariates (primary)" ///
+              L4 "+ covariates, IPW") ///
+    booktabs replace
+di as result _n "TABLE S38 DONE"
 
 ** EOF
