@@ -612,6 +612,9 @@ alpha h11rela h11soon h11vuln h11pay h11enti h11eno h11corr h11self h11extra
 lab var h11rela "People with good relations received more"
 lab var h11corr "People took at expense of others"
 lab var h11self "Providers kept goods for themselves"
+* h11eno arrives from the raw data labelled "poeple took at expense of others", which is
+* a typo and near-identical to h11corr. Relabelled pending a check against the questionnaire.
+lab var h11eno "Took at the expense of others (second item)"
 
 pca h11rela h11soon h11vuln h11pay h11enti h11eno h11corr h11self h11extra, comp(1)
 * Eigenvalue = 4.38, explains 49% of variation
