@@ -211,7 +211,7 @@ gr_edit .plotregion1.column4.items[15].xoffset = 1
 gr_edit .plotregion1.column4.items[16].xoffset = 1
 gr_edit .plotregion1.column4.items[17].xoffset = 1
 gr save  "$working_ANALYSIS/results/intermediate/figureS2_forestplot_literature.gph", replace
-gr export "$working_ANALYSIS/results/figures/figureS2_forestplot_literature.png", replace width(3165)
+gr export "$working_ANALYSIS/results/figures/figS02_forestplot_literature.png", replace width(3165)
 restore
 
 
@@ -242,11 +242,11 @@ lab var windspeed_sqr "Wind speed squared"
 global summary mean_transfer exp_transfer windspeed_predicted a3gov wealth_index age gender hh_head single hh_size edu_1
 
 estpost tabstat $summary, by(year) statistics(count mean sd) columns(statistics)
-esttab . using "$working_ANALYSIS/results/tables/tableS1_summary.tex", cells("mean(fmt(%9.2fc)) sd(fmt(%9.2fc))") compress not nostar unstack nomtitle nonumber nonote booktabs replace label
+esttab . using "$working_ANALYSIS/results/tables/tableS02_summary.tex", cells("mean(fmt(%9.2fc)) sd(fmt(%9.2fc))") compress not nostar unstack nomtitle nonumber nonote booktabs replace label
 
 * Table S2.	Summary statistics by attrition status (2012)
 global balance1 mean_transfer exp_transfer windspeed_predicted  a3gov wealth_index age gender hh_head single hh_size edu_1
-iebaltab $balance1 if year==2012, vce(cluster session) grpvar(returner) ftest fmissok rowvarlabels format(%9.2f) savetex("$working_ANALYSIS/results/tables/tableS2_selective_participation") replace
+iebaltab $balance1 if year==2012, vce(cluster session) grpvar(returner) ftest fmissok rowvarlabels format(%9.2f) savetex("$working_ANALYSIS/results/tables/tableS03_selective_participation") replace
 eststo attrition: reg returner $balance1 if year==2012, cluster(session)
 
 
@@ -263,7 +263,7 @@ gr save "$working_ANALYSIS/results/intermediate/attrition_distance_levels.gph", 
 
 gr combine "$working_ANALYSIS/results/intermediate/attrition_windspeed.gph" "$working_ANALYSIS/results/intermediate/attrition_distance_levels.gph", rows(1) scale(1.2)
 gr save "$working_ANALYSIS/results/intermediate/figS3_differential_attrition.gph", replace
-gr export "$working_ANALYSIS/results/figures/figS3_differential_attrition.png", replace width(4000)
+gr export "$working_ANALYSIS/results/figures/figS03_differential_attrition.png", replace width(4000)
 
 ttest returner if ws_cat3!=3 & year==2012, by(ws_cat3)
 
@@ -277,7 +277,7 @@ cond(r(p)<0.1,"`:di %5.3f `=r(F)''*",  "`:di %5.3f `=r(F)'''")))
 
 eststo attrition2: reg returner windspeed_predicted $balance2 if year==2012, cluster(session)
 
-esttab attrition attrition2 using "$working_ANALYSIS/results/tables/tableS3_determinants_of_attrition.tex",  keep(2.ws_cat3 3.ws_cat3 windspeed_predicted $balance2)  label se(%4.2f)  transform(ln*: exp(@) exp(@)) mgroups("Returner(=1)", pattern(1 0) prefix(\multicolumn{@span}{c}{) suffix(}) span erepeat(\cmidrule(lr){@span})) nomtitles b(%4.2f) stats(N N_clust r2_a Fstat , labels("N" "Cluster" "Adjusted R-squared" "F-Test: medium exposure = high exposure") fmt(%9.0fc %9.0fc %9.3f %9.3f)) star(* 0.10 ** 0.05 *** 0.01) varlabels(_cons "Constant", elist(weight:_cons "{break}{hline @width}")) nonotes booktabs replace
+esttab attrition attrition2 using "$working_ANALYSIS/results/tables/tableS04_determinants_of_attrition.tex",  keep(2.ws_cat3 3.ws_cat3 windspeed_predicted $balance2)  label se(%4.2f)  transform(ln*: exp(@) exp(@)) mgroups("Returner(=1)", pattern(1 0) prefix(\multicolumn{@span}{c}{) suffix(}) span erepeat(\cmidrule(lr){@span})) nomtitles b(%4.2f) stats(N N_clust r2_a Fstat , labels("N" "Cluster" "Adjusted R-squared" "F-Test: medium exposure = high exposure") fmt(%9.0fc %9.0fc %9.3f %9.3f)) star(* 0.10 ** 0.05 *** 0.01) varlabels(_cons "Constant", elist(weight:_cons "{break}{hline @width}")) nonotes booktabs replace
 
 
 ** Table S4.	Lee (2009) bounds for treatment effects under differential attrition
@@ -299,7 +299,7 @@ eststo lee_high: leebounds mean_transfer treat_high_vs_low if year == 2016 & tre
 
 drop treat_med_vs_low treat_high_vs_low
 
-esttab lee_med lee_high using "$working_ANALYSIS/results/tables/tableS4_lee_bounds.tex", ///
+esttab lee_med lee_high using "$working_ANALYSIS/results/tables/tableS18_lee_bounds.tex", ///
     label b(%4.2f) se(%4.2f) ///
     mtitles("Medium vs. Low exposure" "High vs. Low exposure") ///
     stats(N, labels("N") fmt(%9.0fc)) ///
@@ -337,7 +337,7 @@ estadd local Fstat = cond(r(p)<0.01,"`:di %5.3f `=r(F)''***", ///
 cond(r(p)<0.05,"`:di %5.3f `=r(F)''**", ///
 cond(r(p)<0.1,"`:di %5.3f `=r(F)''*",  "`:di %5.3f `=r(F)''")))
 
-esttab tableS6_1 tableS6_2 tableS6_3  using "$working_ANALYSIS/results/tables/tableS6_pseudo_treatment.tex", order(windspeed_predicted windspeed_sqr exp_transfer age gender hh_head single edu_1 a3gov wealth_index) label se(%4.2f) transform(ln*: exp(@) exp(@)) mgroups("Average transfers 2012", pattern(1 0 0) prefix(\multicolumn{@span}{c}{) suffix(}) span erepeat(\cmidrule(lr){@span}))  nomtitles b(%4.2f) stats(N N_clust r2_a Fstat, labels("N" "Cluster" "Adjusted R-squared" "F-Test: wind speed and wind speedÃ‚Â²") fmt(%9.0fc %9.0fc %9.3f %9.3f)) star(* 0.10 ** 0.05 *** 0.01) varlabels(_cons "Constant", elist(weight:_cons "{break}{hline @width}")) nonotes booktabs replace
+esttab tableS6_1 tableS6_2 tableS6_3  using "$working_ANALYSIS/results/tables/tableS06_pseudo_treatment.tex", order(windspeed_predicted windspeed_sqr exp_transfer age gender hh_head single edu_1 a3gov wealth_index) label se(%4.2f) transform(ln*: exp(@) exp(@)) mgroups("Average transfers 2012", pattern(1 0 0) prefix(\multicolumn{@span}{c}{) suffix(}) span erepeat(\cmidrule(lr){@span}))  nomtitles b(%4.2f) stats(N N_clust r2_a Fstat, labels("N" "Cluster" "Adjusted R-squared" "F-Test: wind speed and wind speedÃ‚Â²") fmt(%9.0fc %9.0fc %9.3f %9.3f)) star(* 0.10 ** 0.05 *** 0.01) varlabels(_cons "Constant", elist(weight:_cons "{break}{hline @width}")) nonotes booktabs replace
 
 
 
@@ -370,9 +370,6 @@ estadd matrix table = t
 esttab ., ///
     cells("table[Eigenvalue](t fmt(2)) table[Difference](t fmt(2)) table[Proportion](t fmt(2)) table[Cumulative](t fmt(2))") ///
     nogap noobs nonumber nomtitle
-esttab . using "$working_ANALYSIS/results/tables/tableS7_PCA_details.tex", booktabs replace ///
-    cells("table[Eigenvalue](t fmt(2)) table[Difference](t fmt(2)) table[Proportion](t fmt(2)) table[Cumulative](t fmt(2))") ///
-    nonotes nogap noobs nonumber nomtitle
 
 	
 	
@@ -380,9 +377,6 @@ esttab . using "$working_ANALYSIS/results/tables/tableS7_PCA_details.tex", bookt
 esttab ., ///
     cells("L[Comp1](t fmt(2)) L[Comp2](t fmt(2)) L[Comp3](t fmt(2)) Psi[Unexplained]" ) ///
    nogap noobs nonumber nomtitle
-esttab . using "$working_ANALYSIS/results/tables/tableS8_PCA_details2.tex", booktabs replace ///
-    cells("L[Comp1](t fmt(2)) L[Comp2](t fmt(2)) L[Comp3](t fmt(2)) Psi[Unexplained]") ///
-    nonotes nogap noobs nonumber nomtitle label
 	
 	
 
@@ -409,15 +403,9 @@ matrix colnames c = "Cumulative"
 matrix t = ( ev , d , p , c )
 estadd matrix table = t
 
-esttab . using "$working_ANALYSIS/results/tables/tableS9_PCA_corruption.tex", booktabs replace ///
-    cells("table[Eigenvalue](t fmt(2)) table[Difference](t fmt(2)) table[Proportion](t fmt(2)) table[Cumulative](t fmt(2))") ///
-    nonotes nogap noobs nonumber nomtitle
 
 
 **Table S10.	Loadings: Perceived Aid Corruption
-esttab . using "$working_ANALYSIS/results/tables/tableS10_PCA_corruption_loadings.tex", booktabs replace ///
-    cells("L[Comp1](t fmt(2)) Psi[Unexplained]") ///
-    nonotes nogap noobs nonumber nomtitle label
 
 
 **Table S11.	Post-Disaster Social Support PCA
@@ -443,15 +431,9 @@ matrix colnames c = "Cumulative"
 matrix t = ( ev , d , p , c )
 estadd matrix table = t
 
-esttab . using "$working_ANALYSIS/results/tables/tableS11_PCA_social_support.tex", booktabs replace ///
-    cells("table[Eigenvalue](t fmt(2)) table[Difference](t fmt(2)) table[Proportion](t fmt(2)) table[Cumulative](t fmt(2))") ///
-    nonotes nogap noobs nonumber nomtitle
 
 
 **Table S12.	Loadings: Post-Disaster Social Support
-esttab . using "$working_ANALYSIS/results/tables/tableS12_PCA_social_support_loadings.tex", booktabs replace ///
-    cells("L[Comp1](t fmt(2)) L[Comp2](t fmt(2)) Psi[Unexplained]") ///
-    nonotes nogap noobs nonumber nomtitle label
 
 
 **Table S13.	Social Network Damage PCA
@@ -476,15 +458,9 @@ matrix colnames c = "Cumulative"
 matrix t = ( ev , d , p , c )
 estadd matrix table = t
 
-esttab . using "$working_ANALYSIS/results/tables/tableS13_PCA_network_damage.tex", booktabs replace ///
-    cells("table[Eigenvalue](t fmt(2)) table[Difference](t fmt(2)) table[Proportion](t fmt(2)) table[Cumulative](t fmt(2))") ///
-    nonotes nogap noobs nonumber nomtitle
 
 
 **Table S14.	Loadings: Social Network Damage
-esttab . using "$working_ANALYSIS/results/tables/tableS14_PCA_network_damage_loadings.tex", booktabs replace ///
-    cells("L[Comp1](t fmt(2)) Psi[Unexplained]") ///
-    nonotes nogap noobs nonumber nomtitle label
 
 
 ** Fig. S4.	Distributions of Key Experiential and Perceptual Variables
@@ -550,8 +526,8 @@ gr combine "$working_ANALYSIS/results/intermediate/figS4_a.gph" ///
     "$working_ANALYSIS/results/intermediate/figS4_e.gph" ///
     "$working_ANALYSIS/results/intermediate/figS4_f.gph", ///
     cols(3) xsize(4) ysize(3) graphregion(color(white))
-gr save  "$working_ANALYSIS/results/intermediate/figS4_PCA_distributions.gph", replace
-gr export "$working_ANALYSIS/results/figures/figS4_PCA_distributions.png", replace width(4000)
+* [removed 2026-07-31, output no longer used by the SI]
+* [removed 2026-07-31, output no longer used by the SI]
 
 
 
@@ -569,7 +545,7 @@ twoway (lpoly diff_baseline_to_mean windspeed_predicted if h6need==1, lwidth(thi
 ttest baseline_mean if returner==1, by(h6need)
 ttest baseline_mean if returner==1, by(high_external)
 gr save  "$working_ANALYSIS/results/intermediate/figS5_baseline_trends.gph", replace
-gr export "$working_ANALYSIS/results/figures/figS5_baseline_trends.png", replace width(3165)
+gr export "$working_ANALYSIS/results/figures/figS08_baseline_trends.png", replace width(3165)
 
 
 *Fig. S6.	Distribution of solidarity transfers
@@ -595,7 +571,7 @@ tab d_mean_transfer
 gr combine "$working_ANALYSIS/results/intermediate/figure4_a.gph" "$working_ANALYSIS/results/intermediate/figure4_b.gph", rows(1) xsize(3.465) ysize(2)
 gr_edit SetAspectRatio 0.8
 gr save  "$working_ANALYSIS/results/intermediate/FigS6_delta_main_outcomes.gph", replace
-gr export "$working_ANALYSIS/results/figures/FigS6_delta_main_outcomes.png", replace width(3165)
+gr export "$working_ANALYSIS/results/figures/figS04_delta_main_outcomes.png", replace width(3165)
 
 
 
@@ -675,15 +651,13 @@ reg d_mean_transfer_std c.windspeed_predicted##c.windspeed_predicted l4.mean_tra
 margins, at(windspeed_predicted = (70(5)145)) 
 
 
-esttab table2_1 table2_2 table2_3 table2_4 table2_5 table2_6 table2_7 table2_8 using "$working_ANALYSIS/results/tables/tableS15_main_effects_transfers.tex",  keep(windspeed_predicted windspeed_sqr 2.ws_cat3 3.ws_cat3 L4.mean_transfer d_exp_transfer $x_changed) order(windspeed_predicted windspeed_sqr 2.ws_cat3 3.ws_cat3 L4.mean_transfer d_exp_transfer $x_changed) label se(%4.2f)  transform(ln*: exp(@) exp(@)) mgroups("Change in Average transfers", pattern(1 0 0 0 0 0 0 0) prefix(\multicolumn{@span}{c}{) suffix(}) span erepeat(\cmidrule(lr){@span}))  nomtitles posthead("& \multicolumn{4}{c}{Quadratic specification} & \multicolumn{4}{c}{Dummy specification} \\" "\cmidrule(lr){2-5}\cmidrule(lr){6-9}" "\midrule") b(%4.2f) stats(N N_clust r2_a Fstat Fstat2, labels("N" "Cluster" "Adjusted R-squared" "F-Test: wind speed and wind speedÃ‚Â²" "F-Test: medium damages = high damages") fmt(%9.0fc %9.0fc %9.3f %9.3f %9.3f)) star(* 0.10 ** 0.05 *** 0.01) varlabels(_cons "Constant", elist(weight:_cons "{break}{hline @width}")) nonotes booktabs replace
+esttab table2_1 table2_2 table2_3 table2_4 table2_5 table2_6 table2_7 table2_8 using "$working_ANALYSIS/results/tables/tableS07_panelA_main_effects_transfers.tex",  keep(windspeed_predicted windspeed_sqr 2.ws_cat3 3.ws_cat3 L4.mean_transfer d_exp_transfer $x_changed) order(windspeed_predicted windspeed_sqr 2.ws_cat3 3.ws_cat3 L4.mean_transfer d_exp_transfer $x_changed) label se(%4.2f)  transform(ln*: exp(@) exp(@)) mgroups("Change in Average transfers", pattern(1 0 0 0 0 0 0 0) prefix(\multicolumn{@span}{c}{) suffix(}) span erepeat(\cmidrule(lr){@span}))  nomtitles posthead("& \multicolumn{4}{c}{Quadratic specification} & \multicolumn{4}{c}{Dummy specification} \\" "\cmidrule(lr){2-5}\cmidrule(lr){6-9}" "\midrule") b(%4.2f) stats(N N_clust r2_a Fstat Fstat2, labels("N" "Cluster" "Adjusted R-squared" "F-Test: wind speed and wind speedÃ‚Â²" "F-Test: medium damages = high damages") fmt(%9.0fc %9.0fc %9.3f %9.3f %9.3f)) star(* 0.10 ** 0.05 *** 0.01) varlabels(_cons "Constant", elist(weight:_cons "{break}{hline @width}")) nonotes booktabs replace
 
 
 ** Table S16.	Quadratic model: Effect of Haiyan on solidarity transfers (full)
-esttab table2_1 table2_2 table2_3 using "$working_ANALYSIS/results/tables/tableS16_main_effects_full.tex",    label se(%4.2f)  transform(ln*: exp(@) exp(@)) mgroups("Change in Average transfers", pattern(1 0 0) prefix(\multicolumn{@span}{c}{) suffix(}) span erepeat(\cmidrule(lr){@span}))   nomtitles b(%4.2f) stats(N N_clust r2_a Fstat, labels("N" "Cluster" "Adjusted R-squared" "F-Test: wind speed and wind speedÃ‚Â²") fmt(%9.0fc %9.0fc %9.3f %9.3f)) star(* 0.10 ** 0.05 *** 0.01) varlabels(_cons "Constant", elist(weight:_cons "{break}{hline @width}")) nonotes booktabs replace
 
 
 ** Table S17.	Solidarity Transfers: Wind-speed categories (full table)
-esttab table2_5 table2_6 table2_7 using "$working_ANALYSIS/results/tables/tableS17_main_effects_full2.tex",    label se(%4.2f)  transform(ln*: exp(@) exp(@)) mgroups("Change in Average transfers", pattern(1 0 0) prefix(\multicolumn{@span}{c}{) suffix(}) span erepeat(\cmidrule(lr){@span}))   nomtitles b(%4.2f) stats(N N_clust r2_a Fstat2, labels("N" "Cluster" "Adjusted R-squared" "F-Test: medium = high damages") fmt(%9.0fc %9.0fc %9.3f %9.3f)) star(* 0.10 ** 0.05 *** 0.01) varlabels(_cons "Constant", elist(weight:_cons "{break}{hline @width}")) nonotes booktabs replace
 
 
 ** Table S18.	Robustness: Including post-treatment controls (Change in trust in government, Change in wealth)
@@ -714,7 +688,7 @@ estadd local Fstat2 = cond(r(p)<0.01,"`:di %5.3f `=r(F)''***", ///
 cond(r(p)<0.05,"`:di %5.3f `=r(F)''**", ///
 cond(r(p)<0.1,"`:di %5.3f `=r(F)''*",  "`:di %5.3f `=r(F)'''")))
 
-esttab robust_pt1 robust_pt2 robust_pt3 robust_pt4 using "$working_ANALYSIS/results/tables/tableS18_robustness_post_treatment.tex",  keep(windspeed_predicted windspeed_sqr 2.ws_cat3 3.ws_cat3 L4.mean_transfer d_exp_transfer d_a3gov d_wealth) order(windspeed_predicted windspeed_sqr 2.ws_cat3 3.ws_cat3 L4.mean_transfer d_exp_transfer d_a3gov d_wealth) label se(%4.2f)  transform(ln*: exp(@) exp(@)) mgroups("Change in Average transfers", pattern(1 0 0 0) prefix(\multicolumn{@span}{c}{) suffix(}) span erepeat(\cmidrule(lr){@span}))  mtitles("Quadratic" "Quadratic (IPW)" "Categorical" "Categorical (IPW)") b(%4.2f) stats(N N_clust r2_a Fstat Fstat2, labels("N" "Cluster" "Adjusted R-squared" "F-Test: wind speed and wind speedÃ‚Â²" "F-Test: medium = high damages") fmt(%9.0fc %9.0fc %9.3f %9.3f %9.3f)) star(* 0.10 ** 0.05 *** 0.01) varlabels(_cons "Constant", elist(weight:_cons "{break}{hline @width}")) nonotes booktabs replace
+esttab robust_pt1 robust_pt2 robust_pt3 robust_pt4 using "$working_ANALYSIS/results/tables/tableS07_panelB_robustness_post_treatment.tex",  keep(windspeed_predicted windspeed_sqr 2.ws_cat3 3.ws_cat3 L4.mean_transfer d_exp_transfer d_a3gov d_wealth) order(windspeed_predicted windspeed_sqr 2.ws_cat3 3.ws_cat3 L4.mean_transfer d_exp_transfer d_a3gov d_wealth) label se(%4.2f)  transform(ln*: exp(@) exp(@)) mgroups("Change in Average transfers", pattern(1 0 0 0) prefix(\multicolumn{@span}{c}{) suffix(}) span erepeat(\cmidrule(lr){@span}))  mtitles("Quadratic" "Quadratic (IPW)" "Categorical" "Categorical (IPW)") b(%4.2f) stats(N N_clust r2_a Fstat Fstat2, labels("N" "Cluster" "Adjusted R-squared" "F-Test: wind speed and wind speedÃ‚Â²" "F-Test: medium = high damages") fmt(%9.0fc %9.0fc %9.3f %9.3f %9.3f)) star(* 0.10 ** 0.05 *** 0.01) varlabels(_cons "Constant", elist(weight:_cons "{break}{hline @width}")) nonotes booktabs replace
 
 
 * ==============================================================================
@@ -741,15 +715,12 @@ forvalues i=2/`e(trace)' {
 matrix colnames c = "Cumulative"
 matrix t = ( ev , d , p , c )
 estadd matrix table = t
-esttab . using "$working_ANALYSIS/results/tables/table_PCA_coping_components.tex", booktabs replace ///
-    cells("table[Eigenvalue](t fmt(2)) table[Difference](t fmt(2)) table[Proportion](t fmt(2)) table[Cumulative](t fmt(2))") ///
-    nonotes nogap noobs nonumber nomtitle
 * --- PC1 loadings table (oriented so higher = more vulnerable) ---
 matrix L   = e(L)
 matrix Psi = e(Psi)
 local sgn = cond(L[4,1] > 0, -1, 1)   // row 4 = adj_log_ymonth; orient so income loads negative
 local labs `" "Household size" "Children under 7" "Elderly present" "Adjusted log income" "Savings (above 1{,}000 PHP)" "Debt (above 5{,}000 PHP)" "Food insecurity" "'
-file open _lf using "$working_ANALYSIS/results/tables/table_PCA_coping_loadings.tex", write replace text
+file open _lf using "$working_ANALYSIS/results/tables/tableS12_PCA_coping_loadings.tex", write replace text
 file write _lf "\begin{tabular}{lcc}" _n "\toprule" _n
 file write _lf " & Comp1 & Unexplained \\" _n "\midrule" _n
 forvalues i=1/`=rowsof(L)' {
@@ -761,8 +732,7 @@ forvalues i=1/`=rowsof(L)' {
 }
 file write _lf "\bottomrule" _n "\end{tabular}" _n
 file close _lf
-capture copy "$working_ANALYSIS/results/tables/table_PCA_coping_components.tex" "$working_ANALYSIS/../submission/2026 - NCC/tables/table_PCA_coping_components.tex", replace
-capture copy "$working_ANALYSIS/results/tables/table_PCA_coping_loadings.tex"   "$working_ANALYSIS/../submission/2026 - NCC/tables/table_PCA_coping_loadings.tex", replace
+capture copy "$working_ANALYSIS/results/tables/tableS12_PCA_coping_loadings.tex"   "$working_ANALYSIS/../submission/2026 - NCC/tables/tableS12_PCA_coping_loadings.tex", replace
 
 * ==============================================================================
 * Table S20: Solidarity response by economic vulnerability (replaces the former
@@ -779,7 +749,7 @@ eststo hetcont: reg d_mean_transfer c.windspeed_predicted##c.windspeed_predicted
 testparm c.windspeed_predicted#c.vuln_cont c.windspeed_predicted#c.windspeed_predicted#c.vuln_cont
 estadd local Fint = "`: di %4.2f r(F)'"
 estadd local pint = "`: di %5.3f r(p)'"
-esttab hetcont using "$working_ANALYSIS/results/tables/table_het_continuous.tex", ///
+esttab hetcont using "$working_ANALYSIS/results/tables/tableS13_het_continuous.tex", ///
     se(%4.2f) b(%4.2f) booktabs replace nonotes ///
     keep(windspeed_predicted c.windspeed_predicted#c.windspeed_predicted vuln_cont c.windspeed_predicted#c.vuln_cont c.windspeed_predicted#c.windspeed_predicted#c.vuln_cont L4.mean_transfer d_exp_transfer) ///
     order(windspeed_predicted c.windspeed_predicted#c.windspeed_predicted vuln_cont c.windspeed_predicted#c.vuln_cont c.windspeed_predicted#c.windspeed_predicted#c.vuln_cont L4.mean_transfer d_exp_transfer) ///
@@ -787,7 +757,7 @@ esttab hetcont using "$working_ANALYSIS/results/tables/table_het_continuous.tex"
     mtitles("Change in transfers") ///
     stats(N N_clust r2_a Fint pint, labels("N" "Clusters" "Adjusted R-squared" "F: wind-vulnerability interaction" "p: wind-vulnerability interaction") fmt(%9.0fc %9.0fc %9.3f %s %s)) ///
     star(* 0.10 ** 0.05 *** 0.01)
-capture copy "$working_ANALYSIS/results/tables/table_het_continuous.tex" "$working_ANALYSIS/../submission/2026 - NCC/tables/table_het_continuous.tex", replace
+capture copy "$working_ANALYSIS/results/tables/tableS13_het_continuous.tex" "$working_ANALYSIS/../submission/2026 - NCC/tables/tableS13_het_continuous.tex", replace
 
 * Heterogeneity tests. PRIMARY = continuous interaction of the wind-speed quadratic
 * with the continuous vulnerability index (vuln_cont): the U-shape deepens with
@@ -906,10 +876,10 @@ gr save  "$working_ANALYSIS/results/intermediate/figS7_b.gph", replace
 
 gr combine "$working_ANALYSIS/results/intermediate/figS7_a" "$working_ANALYSIS/results/intermediate/figS7_b" "$working_ANALYSIS/results/intermediate/figS7_c" "$working_ANALYSIS/results/intermediate/figS7_d", xsize(4) ysize(3) cols(2) scale(1.1)
 gr save  "$working_ANALYSIS/results/intermediate/figS7_longterm_2022.gph", replace
-gr export "$working_ANALYSIS/results/figures/figS7_longterm_2022.png", replace width(3465)
+gr export "$working_ANALYSIS/results/figures/figS05_longterm_2022.png", replace width(3465)
 
 
-esttab main_recip1 main_recip2  main_recip5 main_recip6 main_recip3 main_recip4 using "$working_ANALYSIS/results/tables/tableS20_longterm_2022.tex", label se(%4.2f) transform(ln*: exp(@) exp(@)) mgroups("Reciprocity: Quadratic" "Reciprocity: Wind-speed categories" "Change in Average transfers", pattern(1 0 1 0 1 0) prefix(\multicolumn{@span}{c}{) suffix(}) span erepeat(\cmidrule(lr){@span})) nomtitles b(%4.2f) stats(N N_clust r2_a Fstat Fstat2, labels("N" "Cluster" "Adjusted R-squared" "F-Test: wind speed and wind speedÃ‚Â²" "F-Test: Medium = high damages") fmt(%9.0fc %9.0fc %9.3f %9.3f %9.3f)) star(* 0.10 ** 0.05 *** 0.01) varlabels(_cons "Constant", elist(weight:_cons "{break}{hline @width}")) nonotes booktabs replace
+esttab main_recip1 main_recip2  main_recip5 main_recip6 main_recip3 main_recip4 using "$working_ANALYSIS/results/tables/tableS08_longterm_2022.tex", label se(%4.2f) transform(ln*: exp(@) exp(@)) mgroups("Reciprocity: Quadratic" "Reciprocity: Wind-speed categories" "Change in Average transfers", pattern(1 0 1 0 1 0) prefix(\multicolumn{@span}{c}{) suffix(}) span erepeat(\cmidrule(lr){@span})) nomtitles b(%4.2f) stats(N N_clust r2_a Fstat Fstat2, labels("N" "Cluster" "Adjusted R-squared" "F-Test: wind speed and wind speedÃ‚Â²" "F-Test: Medium = high damages") fmt(%9.0fc %9.0fc %9.3f %9.3f %9.3f)) star(* 0.10 ** 0.05 *** 0.01) varlabels(_cons "Constant", elist(weight:_cons "{break}{hline @width}")) nonotes booktabs replace
 
 * Console-only diagnostic on the wind-speed categories (not exported)
 reg z_recip ib1.ws_cat3 $x_changed2 $imbalances2 if particip_12_16_22==1, vce(cluster session)
@@ -968,7 +938,7 @@ gr combine "$working_ANALYSIS/results/intermediate/figS8_a.gph" ///
     "$working_ANALYSIS/results/intermediate/figS8_b.gph", ///
     cols(2) xsize(4) ysize(2) graphregion(color(white))
 gr save  "$working_ANALYSIS/results/intermediate/figS8_lab_diffusion.gph", replace
-gr export "$working_ANALYSIS/results/figures/figS8_lab_diffusion.png", replace width(4000)
+gr export "$working_ANALYSIS/results/figures/figS06_lab_diffusion.png", replace width(4000)
 
 
 ** Table S21.  Lab-in-the-field: Diffusion of responsibility
@@ -1008,7 +978,7 @@ cond(r(p)<0.05,"`:di %5.3f `=r(F)''**", ///
 cond(r(p)<0.1,"`:di %5.3f `=r(F)''*",  "`:di %5.3f `=r(F)''")))
 
 esttab tableS21_1 tableS21_2 tableS21_3 tableS21_4 tableS21_5 ///
-	using "$working_ANALYSIS/results/tables/tableS21_lab_diffusion.tex", booktabs replace ///
+	using "$working_ANALYSIS/results/tables/tableS09_lab_diffusion.tex", booktabs replace ///
 	se(%9.3f) b(%9.3f) star(* 0.10 ** 0.05 *** 0.01) ///
 	keep(damages c.damages#c.damages) ///
 	order(damages c.damages#c.damages) ///
@@ -1050,7 +1020,6 @@ estadd local Fstat = cond(r(p)<0.01,"`:di %5.3f `=r(F)''***", ///
 cond(r(p)<0.05,"`:di %5.3f `=r(F)''**", ///
 cond(r(p)<0.1,"`:di %5.3f `=r(F)''*",  "`:di %5.3f `=r(F)''")))
 
-esttab house_aid1 house_aid2 using "$working_ANALYSIS/results/tables/tableS22_aid_satisfaction.tex",  label se(%4.2f) transform(ln*: exp(@) exp(@)) mgroups("Aid Satisfaction", pattern(1 0 ) prefix(\multicolumn{@span}{c}{) suffix(}) span erepeat(\cmidrule(lr){@span})) mtitles("Not severe damage" "Severely damaged") b(%4.2f) stats(N N_clust r2_a Fstat , labels("N" "Cluster" "Adjusted R-squared" "F-Test: wind speed and wind speedÃ‚Â²") fmt(%9.0fc %9.0fc %9.3f %9.3f) ) star(* 0.10 ** 0.05 *** 0.01) varlabels(_cons "Constant", elist(weight:_cons "{break}{hline @width}")) nonotes booktabs replace
 
 
 *Fig. S9.	Haiyan exposure and post-disaster social and institutional perceptions
@@ -1126,12 +1095,12 @@ gr save  "$working_ANALYSIS/results/intermediate/experience_F.gph", replace
 
 
 gr combine "$working_ANALYSIS/results/intermediate/experience_A.gph" "$working_ANALYSIS/results/intermediate/experience_B.gph" "$working_ANALYSIS/results/intermediate/experience_C.gph" "$working_ANALYSIS/results/intermediate/experience_D.gph" "$working_ANALYSIS/results/intermediate/experience_E.gph" "$working_ANALYSIS/results/intermediate/experience_F.gph" , xsize(5) ysize(3) rows(2) scale(1.2)
-gr save  "$working_ANALYSIS/results/intermediate/FigS9_u_shape_perceptions.gph", replace
-gr export "$working_ANALYSIS/results/figures/FigS9_u_shape_perceptions.png", replace width(4000)
+* [removed 2026-07-31, output no longer used by the SI]
+* [removed 2026-07-31, output no longer used by the SI]
 
 
 *Table S23.	Haiyan exposure and post-disaster social and institutional perceptions
-esttab experience1 experience2 experience3 experience4 experience5 experience6  using "$working_ANALYSIS/results/tables/tableS23_non_linearity_perceptions_post_haiyan.tex",  label se(%4.2f) transform(ln*: exp(@) exp(@)) mtitles("Satisfaction Aid" "Mismanagement Aid" "Corruption Aid" "Support Volume" "Support Source" "Network Damage") b(%4.2f) stats(N N_clust r2_a Fstat , labels("N" "Cluster" "Adjusted R-squared" "F-Test: wind speed and wind speedÃ‚Â²") fmt(%9.0fc %9.0fc %9.3f %9.3f) ) star(* 0.10 ** 0.05 *** 0.01) varlabels(_cons "Constant", elist(weight:_cons "{break}{hline @width}")) nonotes booktabs replace
+* [removed 2026-07-31, output no longer used by the SI]
 
 
 
@@ -1155,7 +1124,7 @@ estadd local Fstat2 = cond(r(p)<0.01,"`:di %5.3f `=r(F)''***", ///
 cond(r(p)<0.05,"`:di %5.3f `=r(F)''**", ///
 cond(r(p)<0.1,"`:di %5.3f `=r(F)''*",  "`:di %5.3f `=r(F)''")))
 
-esttab reg_post1 reg_post2 using "$working_ANALYSIS/results/tables/tableS24_controlling_for_post_haiyan_experiences.tex", keep(windspeed_predicted windspeed_sqr  $post_haiyan) label se(%4.2f) transform(ln*: exp(@) exp(@)) mgroups("Change in Average transfers", pattern(1 0) prefix(\multicolumn{@span}{c}{) suffix(}) span erepeat(\cmidrule(lr){@span})) nomtitles posthead("& \multicolumn{2}{c}{Full sample} \\" "\cmidrule(lr){2-3}" "\midrule") b(%4.2f) stats(N N_clust r2_a Fstat Fstat2, labels("N" "Cluster" "Adjusted R-squared" "F-Test: wind speed and wind speedÃ‚Â²" "F-Test: Post-Haiyan") fmt(%9.0fc %9.0fc %9.3f %9.3f %9.3f) ) star(* 0.10 ** 0.05 *** 0.01) varlabels(_cons "Constant", elist(weight:_cons "{break}{hline @width}")) nonotes booktabs replace
+esttab reg_post1 reg_post2 using "$working_ANALYSIS/results/tables/tableS10_panelA_controlling_for_post_haiyan_experiences.tex", keep(windspeed_predicted windspeed_sqr  $post_haiyan) label se(%4.2f) transform(ln*: exp(@) exp(@)) mgroups("Change in Average transfers", pattern(1 0) prefix(\multicolumn{@span}{c}{) suffix(}) span erepeat(\cmidrule(lr){@span})) nomtitles posthead("& \multicolumn{2}{c}{Full sample} \\" "\cmidrule(lr){2-3}" "\midrule") b(%4.2f) stats(N N_clust r2_a Fstat Fstat2, labels("N" "Cluster" "Adjusted R-squared" "F-Test: wind speed and wind speedÃ‚Â²" "F-Test: Post-Haiyan") fmt(%9.0fc %9.0fc %9.3f %9.3f %9.3f) ) star(* 0.10 ** 0.05 *** 0.01) varlabels(_cons "Constant", elist(weight:_cons "{break}{hline @width}")) nonotes booktabs replace
 
 
 
@@ -1185,7 +1154,7 @@ estadd local Fstat2 = cond(r(p)<0.01,"`:di %5.3f `=r(F)''***", ///
 cond(r(p)<0.05,"`:di %5.3f `=r(F)''**", ///
 cond(r(p)<0.1,"`:di %5.3f `=r(F)''*",  "`:di %5.3f `=r(F)''")))
 
-esttab  reg_post6 reg_post7 using "$working_ANALYSIS/results/tables/tableS25_controlling_for_post_haiyan_experiences_village_level.tex", keep(windspeed_predicted windspeed_sqr  $post_haiyan2) label se(%4.2f) transform(ln*: exp(@) exp(@)) mgroups("Change in Average transfers", pattern(1 0) prefix(\multicolumn{@span}{c}{) suffix(}) span erepeat(\cmidrule(lr){@span})) nomtitles posthead("& \multicolumn{2}{c}{Full sample} \\" "\cmidrule(lr){2-3}" "\midrule") b(%4.2f) stats(N N_clust r2_a Fstat Fstat2, labels("N" "Cluster" "Adjusted R-squared" "F-Test: wind speed and wind speedÃ‚Â²" "F-Test: Post-Haiyan") fmt(%9.0fc %9.0fc %9.3f %9.3f %9.3f) ) star(* 0.10 ** 0.05 *** 0.01) varlabels(_cons "Constant", elist(weight:_cons "{break}{hline @width}")) nonotes booktabs replace
+esttab  reg_post6 reg_post7 using "$working_ANALYSIS/results/tables/tableS10_panelB_controlling_for_post_haiyan_experiences_village_level.tex", keep(windspeed_predicted windspeed_sqr  $post_haiyan2) label se(%4.2f) transform(ln*: exp(@) exp(@)) mgroups("Change in Average transfers", pattern(1 0) prefix(\multicolumn{@span}{c}{) suffix(}) span erepeat(\cmidrule(lr){@span})) nomtitles posthead("& \multicolumn{2}{c}{Full sample} \\" "\cmidrule(lr){2-3}" "\midrule") b(%4.2f) stats(N N_clust r2_a Fstat Fstat2, labels("N" "Cluster" "Adjusted R-squared" "F-Test: wind speed and wind speedÃ‚Â²" "F-Test: Post-Haiyan") fmt(%9.0fc %9.0fc %9.3f %9.3f %9.3f) ) star(* 0.10 ** 0.05 *** 0.01) varlabels(_cons "Constant", elist(weight:_cons "{break}{hline @width}")) nonotes booktabs replace
 
 
 
@@ -1246,7 +1215,7 @@ estadd local Fstat2 = cond(r(p)<0.01,"`:di %5.3f `=r(F)''***", ///
 cond(r(p)<0.05,"`:di %5.3f `=r(F)''**", ///
 cond(r(p)<0.1,"`:di %5.3f `=r(F)''*",  "`:di %5.3f `=r(F)'''")))
 
-esttab anchor1 anchor2 anchor3 anchor4 anchor5 anchor6 anchor7 anchor8 using "$working_ANALYSIS/results/tables/tableS26_anchor_vs_friend.tex",  keep(windspeed_predicted windspeed_sqr 2.ws_cat3 3.ws_cat3 L4.mean_transfer d_exp_transfer $x_changed) order(windspeed_predicted windspeed_sqr 2.ws_cat3 3.ws_cat3 L4.mean_transfer d_exp_transfer $x_changed) label se(%4.2f)  transform(ln*: exp(@) exp(@)) mgroups("Quadratic specification" "Levels specification", pattern(1 0 0 0 1 0 0 0) prefix(\multicolumn{@span}{c}{) suffix(}) span erepeat(\cmidrule(lr){@span}))  mtitles("Full sample"  "IPW" "Invitees" "Randomly invited" "Full sample"  "IPW" "Invitees" "Randomly invited") b(%4.2f) stats(N N_clust r2_a Fstat Fstat2, labels("N" "Cluster" "Adjusted R-squared" "F-Test: wind speed and wind speedÃ‚Â²" "F-Test: medium damages = high damages" ) fmt(%9.0fc %9.0fc %9.3f %9.3f %9.3f)) star(* 0.10 ** 0.05 *** 0.01) varlabels(_cons "Constant", elist(weight:_cons "{break}{hline @width}")) nonotes booktabs replace
+esttab anchor1 anchor2 anchor3 anchor4 anchor5 anchor6 anchor7 anchor8 using "$working_ANALYSIS/results/tables/tableS14_anchor_vs_friend.tex",  keep(windspeed_predicted windspeed_sqr 2.ws_cat3 3.ws_cat3 L4.mean_transfer d_exp_transfer $x_changed) order(windspeed_predicted windspeed_sqr 2.ws_cat3 3.ws_cat3 L4.mean_transfer d_exp_transfer $x_changed) label se(%4.2f)  transform(ln*: exp(@) exp(@)) mgroups("Quadratic specification" "Levels specification", pattern(1 0 0 0 1 0 0 0) prefix(\multicolumn{@span}{c}{) suffix(}) span erepeat(\cmidrule(lr){@span}))  mtitles("Full sample"  "IPW" "Invitees" "Randomly invited" "Full sample"  "IPW" "Invitees" "Randomly invited") b(%4.2f) stats(N N_clust r2_a Fstat Fstat2, labels("N" "Cluster" "Adjusted R-squared" "F-Test: wind speed and wind speedÃ‚Â²" "F-Test: medium damages = high damages" ) fmt(%9.0fc %9.0fc %9.3f %9.3f %9.3f)) star(* 0.10 ** 0.05 *** 0.01) varlabels(_cons "Constant", elist(weight:_cons "{break}{hline @width}")) nonotes booktabs replace
 
 
 preserve
@@ -1271,7 +1240,7 @@ eststo tableS27_1: reg mean_transfer windspeed_predicted windspeed_sqr if year==
 eststo tableS27_2: reg mean_transfer windspeed_predicted windspeed_sqr exp_transfer if year==2016, vce(cluster session)
 eststo tableS27_3: reg mean_transfer windspeed_predicted windspeed_sqr exp_transfer $x_1 stranger if year==2016, vce(cluster session)
 
-esttab tableS27_1 tableS27_2 tableS27_3  using "$working_ANALYSIS/results/tables/tableS27_without_baseline.tex",  order(windspeed_predicted windspeed_sqr) label se(%4.2f) transform(ln*: exp(@) exp(@)) nomtitles b(%4.2f) stats(N N_clust r2_a, labels("N" "Cluster" "Adjusted R-squared" ) fmt(%9.0fc %9.0fc %9.3f) ) star(* 0.10 ** 0.05 *** 0.01) varlabels(_cons "Constant", elist(weight:_cons "{break}{hline @width}")) nonotes booktabs replace
+esttab tableS27_1 tableS27_2 tableS27_3  using "$working_ANALYSIS/results/tables/tableS15_panelA_without_baseline.tex",  order(windspeed_predicted windspeed_sqr) label se(%4.2f) transform(ln*: exp(@) exp(@)) nomtitles b(%4.2f) stats(N N_clust r2_a, labels("N" "Cluster" "Adjusted R-squared" ) fmt(%9.0fc %9.0fc %9.3f) ) star(* 0.10 ** 0.05 *** 0.01) varlabels(_cons "Constant", elist(weight:_cons "{break}{hline @width}")) nonotes booktabs replace
 restore
 
 
@@ -1286,7 +1255,7 @@ quietly reg d_mean_transfer c.windspeed_predicted##c.windspeed_predicted l4.mean
 margins, at(windspeed_predicted = (70(5)145))
 
 
-esttab tableS28_1 tableS28_2 tableS28_3 using "$working_ANALYSIS/results/tables/tableS28_exclusion_medium.tex", order(windspeed_predicted windspeed_sqr L4.mean_transfer d_exp_transfer $x_changed $imbalances) label se(%4.2f)  transform(ln*: exp(@) exp(@))  nomtitles b(%4.2f) stats(N N_clust r2_a, labels("N" "Cluster" "Adjusted R-squared" ) fmt(%9.0fc %9.0fc %9.3f) ) star(* 0.10 ** 0.05 *** 0.01) varlabels(_cons "Constant", elist(weight:_cons "{break}{hline @width}")) nonotes booktabs replace
+esttab tableS28_1 tableS28_2 tableS28_3 using "$working_ANALYSIS/results/tables/tableS15_panelB_exclusion_medium.tex", order(windspeed_predicted windspeed_sqr L4.mean_transfer d_exp_transfer $x_changed $imbalances) label se(%4.2f)  transform(ln*: exp(@) exp(@))  nomtitles b(%4.2f) stats(N N_clust r2_a, labels("N" "Cluster" "Adjusted R-squared" ) fmt(%9.0fc %9.0fc %9.3f) ) star(* 0.10 ** 0.05 *** 0.01) varlabels(_cons "Constant", elist(weight:_cons "{break}{hline @width}")) nonotes booktabs replace
 
  
 ** Table S29.	Solidarity Transfers: Affectedness index instead of distance
@@ -1294,7 +1263,6 @@ eststo cont_damages1: reg d_mean_transfer affectedness_index affectedness_index_
 eststo cont_damages2: reg d_mean_transfer affectedness_index affectedness_index_sqr l4.mean_transfer d_exp_transfer, vce(cluster session)
 eststo cont_damages3: reg d_mean_transfer affectedness_index affectedness_index_sqr l4.mean_transfer d_exp_transfer $x_changed $imbalances, vce(cluster session)
 	
-esttab cont_damages1 cont_damages2 cont_damages3 using "$working_ANALYSIS/results/tables/tableS29_damages_cont.tex",   order(affectedness_index affectedness_index_sqr L4.mean_transfer d_exp_transfer $x_changed $imbalances) label se(%4.2f)  transform(ln*: exp(@) exp(@))  nomtitles b(%4.2f) stats(N N_clust r2_a, labels("N" "Cluster" "Adjusted R-squared" ) fmt(%9.0fc %9.0fc %9.3f) ) star(* 0.10 ** 0.05 *** 0.01) varlabels(_cons "Constant", elist(weight:_cons "{break}{hline @width}")) nonotes booktabs replace
 
 
 
@@ -1305,7 +1273,6 @@ eststo level_damages1: reg d_mean_transfer i.affectedness_cat l4.mean_transfer, 
 eststo level_damages2: reg d_mean_transfer i.affectedness_cat l4.mean_transfer d_exp_transfer, vce(cluster session)
 eststo level_damages3: reg d_mean_transfer i.affectedness_cat l4.mean_transfer d_exp_transfer $x_changed $imbalances, vce(cluster session)
 
-esttab level_damages1 level_damages2 level_damages3 using "$working_ANALYSIS/results/tables/tableS30_damage_levels.tex",drop(1.affectedness_cat)  order(2.affectedness_cat 3.affectedness_cat 4.affectedness_cat 5.affectedness_cat L4.mean_transfer d_exp_transfer $x_changed) label se(%4.2f)  transform(ln*: exp(@) exp(@)) mgroups("Change in Average transfers", pattern(1 0 0) prefix(\multicolumn{@span}{c}{) suffix(}) span erepeat(\cmidrule(lr){@span}))   nomtitles b(%4.2f) stats(N N_clust r2_a,  labels("N" "Cluster" "Adjusted R-squared" ) fmt(%9.0fc %9.0fc %9.3f)) star(* 0.10 ** 0.05 *** 0.01) varlabels(_cons "Constant", elist(weight:_cons "{break}{hline @width}")) nonotes booktabs replace
 
 
 ** Table S31.	Solidarity Transfers: Tobit model to account for censoring
@@ -1313,7 +1280,7 @@ eststo tableS31_1: tobit d_mean_transfer windspeed_predicted windspeed_sqr l4.me
 eststo tableS31_2: tobit d_mean_transfer windspeed_predicted windspeed_sqr l4.mean_transfer d_exp_transfer,ll(-70) ul(70) vce(cluster session)
 eststo tableS31_3: tobit d_mean_transfer windspeed_predicted windspeed_sqr l4.mean_transfer d_exp_transfer $x_changed $imbalances, ll(-70) ul(70) vce(cluster session)
 	
-esttab tableS31_1 tableS31_2 tableS31_3 using "$working_ANALYSIS/results/tables/tableS31_tobit.tex", keep(windspeed_predicted windspeed_sqr L4.mean_transfer d_exp_transfer $x_changed $imbalances _cons) order(windspeed_predicted windspeed_sqr L4.mean_transfer d_exp_transfer $x_changed $imbalances) label se(%4.2f)  transform(ln*: exp(@) exp(@))  nomtitles b(%4.2f) stats(N N_clust r2_p, labels("N" "Cluster" "Pseudo R-squared" ) fmt(%9.0fc %9.0fc %9.3f) ) star(* 0.10 ** 0.05 *** 0.01) varlabels(_cons "Constant", elist(weight:_cons "{break}{hline @width}")) nonotes booktabs replace
+esttab tableS31_1 tableS31_2 tableS31_3 using "$working_ANALYSIS/results/tables/tableS16_tobit.tex", keep(windspeed_predicted windspeed_sqr L4.mean_transfer d_exp_transfer $x_changed $imbalances _cons) order(windspeed_predicted windspeed_sqr L4.mean_transfer d_exp_transfer $x_changed $imbalances) label se(%4.2f)  transform(ln*: exp(@) exp(@))  nomtitles b(%4.2f) stats(N N_clust r2_p, labels("N" "Cluster" "Pseudo R-squared" ) fmt(%9.0fc %9.0fc %9.3f) ) star(* 0.10 ** 0.05 *** 0.01) varlabels(_cons "Constant", elist(weight:_cons "{break}{hline @width}")) nonotes booktabs replace
 
 
 
@@ -1342,7 +1309,7 @@ gr save  "$working_ANALYSIS/results/intermediate/figS10_sensitive_b.gph", replac
 
 
 gr combine "$working_ANALYSIS/results/intermediate/figS10_sensitive_a" "$working_ANALYSIS/results/intermediate/figS10_sensitive_b", xsize(4) ysize(2) scale(1.3) cols(2) imargin(high)
-gr export "$working_ANALYSIS/results/figures/figS10_sensitivity.png", replace width(3165)
+gr export "$working_ANALYSIS/results/figures/figS09_sensitivity.png", replace width(3165)
 
 
 
@@ -1366,7 +1333,7 @@ estadd local Fstat2 = cond(r(p)<0.01,"`:di %5.3f `=r(F)''***", ///
 cond(r(p)<0.05,"`:di %5.3f `=r(F)''**", ///
 cond(r(p)<0.1,"`:di %5.3f `=r(F)''*",  "`:di %5.3f `=r(F)''")))
 
-esttab expectations1 expectations2 expectations3 using "$working_ANALYSIS/results/tables/tableS33_expectations.tex", order(windspeed_predicted windspeed_sqr L4.exp_transfer $x_changed $imbalances) label se(%4.2f) transform(ln*: exp(@) exp(@)) nomtitles posthead("& \multicolumn{3}{c}{Dependent variable: \(\Delta\) Expected transfer} \\" "\midrule") mgroups("Full Sample", pattern(1 0 0) prefix(\multicolumn{@span}{c}{) suffix(}) span erepeat(\cmidrule(lr){@span})) b(%4.2f) stats(N N_clust Fstat2 r2_a, labels("N" "Cluster" "F-Test: wind speed and wind speedÃ‚Â²" "Adjusted R-squared" ) fmt(%9.0fc %9.0fc %9.3f %9.3f) ) star(* 0.10 ** 0.05 *** 0.01) varlabels(_cons "Constant", elist(weight:_cons "{break}{hline @width}")) nonotes booktabs replace
+esttab expectations1 expectations2 expectations3 using "$working_ANALYSIS/results/tables/tableS11_expectations.tex", order(windspeed_predicted windspeed_sqr L4.exp_transfer $x_changed $imbalances) label se(%4.2f) transform(ln*: exp(@) exp(@)) nomtitles posthead("& \multicolumn{3}{c}{Dependent variable: \(\Delta\) Expected transfer} \\" "\midrule") mgroups("Full Sample", pattern(1 0 0) prefix(\multicolumn{@span}{c}{) suffix(}) span erepeat(\cmidrule(lr){@span})) b(%4.2f) stats(N N_clust Fstat2 r2_a, labels("N" "Cluster" "F-Test: wind speed and wind speedÃ‚Â²" "Adjusted R-squared" ) fmt(%9.0fc %9.0fc %9.3f %9.3f) ) star(* 0.10 ** 0.05 *** 0.01) varlabels(_cons "Constant", elist(weight:_cons "{break}{hline @width}")) nonotes booktabs replace
 
 
 
@@ -1463,7 +1430,7 @@ di _newline(2) "============================================="
 * Display and export results
 matrix list pvals, format(%6.2f) title("Multiple Testing Adjustments")
 
-esttab matrix(pvals, fmt(%6.2f)) using "$working_ANALYSIS/results/tables/tableS32_bh_adjustments.tex", ///
+esttab matrix(pvals, fmt(%6.2f)) using "$working_ANALYSIS/results/tables/tableS17_bh_adjustments.tex", ///
 	coeflabels(Het_vulnerability "Economic-vulnerability interaction" Ambiguity_gap "Ambiguity gap" AidSat_notsevere "Aid satisfaction: not severely damaged" AidSat_severe "Aid satisfaction: severely damaged") ///
 	mlabels(none) collabels("Raw \(p\)-value" "\(q\)-value") nonumbers ///
     nonotes ///
@@ -1631,7 +1598,7 @@ twoway ///
                  5 "Above-median damage & house damaged") ///
            rows(5) size(small) pos(6)) ///
     xsize(3.2) ysize(3) graphregion(color(white))
-gr export "${working_ANALYSIS}/results/figures/fig_ambiguity_gap_robustness.png", replace width(2100)
+gr export "${working_ANALYSIS}/results/figures/figS10_ambiguity_gap_robustness.png", replace width(2100)
 
 di as result _n "06 ROBUSTNESS DONE"
 
@@ -1700,7 +1667,7 @@ preserve
   gr save "`INT'/figS12_b.gph", replace
 restore
 gr combine "`INT'/figS12_a.gph" "`INT'/figS12_b.gph", rows(1) xsize(6.5) ysize(2.2)
-gr export "${working_ANALYSIS}/results/figures/figS12_raw_village_fits.png", replace width(2100)
+gr export "${working_ANALYSIS}/results/figures/figS11_raw_village_fits.png", replace width(2100)
 di as result _n "FIG S12 DONE"
 
 * ============================================================================
@@ -1781,7 +1748,7 @@ preserve
 restore
 
 matrix list S34, format(%9.3f)
-esttab matrix(S34, fmt(%9.2f)) using "${working_ANALYSIS}/results/tables/tableS34_jackknife.tex", ///
+esttab matrix(S34, fmt(%9.2f)) using "${working_ANALYSIS}/results/tables/tableS19_jackknife.tex", ///
     mlabels(none) collabels("Transfers (2016)" "Reciprocity (2022)") nonumbers ///
     varlabels(full_TP "Turning point, full sample (kn)" ///
               full_Utest_t "Lind-Mehlum U-test (t)" ///
@@ -1908,7 +1875,7 @@ preserve
 restore
 
 matrix list S35, format(%9.3f)
-esttab matrix(S35, fmt(%9.2f)) using "${working_ANALYSIS}/results/tables/tableS35_utest_detail.tex", ///
+esttab matrix(S35, fmt(%9.2f)) using "${working_ANALYSIS}/results/tables/tableS20_utest_detail.tex", ///
     mlabels(none) collabels("Transfers (2016)" "Reciprocity (2022)" "Lab" "Ambiguity gap") nonumbers ///
     varlabels(N "Observations" ///
               slope_low "Slope at lower wind-speed bound" ///
@@ -1928,7 +1895,7 @@ di as result _n "TABLE S35 DONE"
 * ============================================================================
 global balance1 mean_transfer exp_transfer a3gov wealth_index age gender hh_head single hh_size edu_1
 iebaltab $balance1 if year==2012 & returner==1, vce(cluster session) grpvar(ws_cat3) ftest fmissok rowvarlabels ///
-    format(%9.2f) savetex("${working_ANALYSIS}/results/tables/tableS36_balance_windgradient") replace
+    format(%9.2f) savetex("${working_ANALYSIS}/results/tables/tableS23_balance_windgradient") replace
 * continuous-gradient joint orthogonality: does wind speed jointly predict baseline covariates?
 qui reg windspeed_predicted $balance1 if year==2012 & returner==1, cluster(session)
 testparm $balance1
@@ -2067,7 +2034,7 @@ di as result "  2016 transfers (S15 col 3): F(2,29) = " %6.3f S37[3,4] ", boot p
 di as result "  2022 reciprocity (S20 col 2): F(2,29) = " %6.3f S37[10,4] ", boot p = " %6.4f S37[10,5]
 
 esttab matrix(S37, fmt(%9.0f %9.0f %9.4f %9.3f %9.4f %9.4f)) ///
-    using "${working_ANALYSIS}/results/tables/tableS37_boottest_ladder.tex", ///
+    using "${working_ANALYSIS}/results/tables/tableS21_boottest_ladder.tex", ///
     mlabels(none) nonumbers ///
     collabels("N" "Villages" "Analytic \$p\$" "Bootstrap \$F\$" "Bootstrap \$p\$" "U-test / med-vs-high \$p\$") ///
     varlabels(S15q1 "Quadratic, baseline transfers only" ///
@@ -2150,7 +2117,7 @@ forvalues k = 1/4 {
 matrix list S38, format(%9.4f)
 
 esttab matrix(S38, fmt(%9.4f %9.4f %9.2f %9.2f %9.4f %9.4f)) ///
-    using "${working_ANALYSIS}/results/tables/tableS38_linear_vs_quadratic.tex", ///
+    using "${working_ANALYSIS}/results/tables/tableS22_linear_vs_quadratic.tex", ///
     mlabels(none) nonumbers ///
     collabels("Adj. \$R^2\$ linear" "Adj. \$R^2\$ quadratic" "\$\Delta\$AIC" "\$\Delta\$BIC" "LR test \$p\$" "Bootstrap \$p\$, quadratic term") ///
     varlabels(L1 "Baseline transfers only" ///

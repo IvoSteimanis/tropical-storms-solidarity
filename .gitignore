@@ -35,3 +35,6 @@ scripts/logs/
 .DS_Store
 Thumbs.db
 desktop.ini
+
+# Local diagnostic, not part of the pipeline
+scripts/_explore_heterogeneity_regressor.do

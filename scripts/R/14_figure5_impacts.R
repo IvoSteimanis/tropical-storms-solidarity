@@ -20,6 +20,16 @@ INT <- "results/intermediate"; OUT <- "results/figures"; ff <- "sans"
 line_col <- "#235789"; pt_col <- "#648FFF"
 ss_breaks <- c(83, 96, 113, 137)         # Saffir-Simpson Cat 2/3/4/5 lower bounds
 
+# Saffir-Simpson band labels, drawn on panel a only (the figure note tells the
+# reader the categories are labelled there). Bands: Cat 1 <83, Cat 2 83-95,
+# Cat 3 96-112, Cat 4 113-136, Cat 5 >=137 kn; each label sits at its band
+# midpoint within the plotted x range.
+ss_labels <- function(xlo, xhi) {
+  edges <- c(xlo, ss_breaks, xhi)
+  data.frame(x = head(edges, -1) + diff(edges) / 2,
+             lab = paste0("Cat ", 1:5))
+}
+
 theme_ncc <- function(base = 9) {
   theme_classic(base_size = base, base_family = ff) %+replace%
     theme(
@@ -37,7 +47,8 @@ theme_ncc <- function(base = 9) {
     )
 }
 
-mk_panel <- function(tag, title, ytitle, pct = FALSE, ylim = NULL, ybreaks = waiver()) {
+mk_panel <- function(tag, title, ytitle, pct = FALSE, ylim = NULL, ybreaks = waiver(),
+                     cats = FALSE) {
   curve <- fread(file.path(INT, sprintf("fig5_%s_curve.csv", tag)))
   setnames(curve, c("gx", "gy"), c("ws", "fit"))
   pts <- fread(file.path(INT, sprintf("fig5_%s_pts.csv", tag)))
@@ -45,6 +56,9 @@ mk_panel <- function(tag, title, ytitle, pct = FALSE, ylim = NULL, ybreaks = wai
   ggplot() +
     geom_vline(xintercept = ss_breaks, linetype = "dotted", colour = "grey80",
                linewidth = 0.3) +
+    (if (cats) geom_text(data = ss_labels(68, 150), aes(x = x, y = Inf, label = lab),
+                         inherit.aes = FALSE, vjust = 1.3, size = 1.9,
+                         colour = "grey45", family = ff)) +
     geom_point(data = pts, aes(ws, y), colour = pt_col, alpha = 0.6, size = 1.2) +
     geom_line(data = curve, aes(ws, fit), colour = line_col, linewidth = 0.9) +
     scale_x_continuous(breaks = seq(70, 150, 20)) +
@@ -54,7 +68,8 @@ mk_panel <- function(tag, title, ytitle, pct = FALSE, ylim = NULL, ybreaks = wai
     theme_ncc()
 }
 
-pa <- mk_panel("a", "Houses damaged", "Share", pct = TRUE, ylim = c(0, 1), ybreaks = seq(0, 1, .2))
+pa <- mk_panel("a", "Houses damaged", "Share", pct = TRUE, ylim = c(0, 1), ybreaks = seq(0, 1, .2),
+               cats = TRUE)
 pb <- mk_panel("b", "Costs of damages", "1,000 PHP", ylim = c(0, 35), ybreaks = seq(0, 35, 5))
 pc <- mk_panel("c", "Reported need for help", "Share", pct = TRUE, ylim = c(0, 1), ybreaks = seq(0, 1, .2))
 pd <- mk_panel("d", "Major life event in 2022", "Share", pct = TRUE, ylim = c(0, 1), ybreaks = seq(0, 1, .2))

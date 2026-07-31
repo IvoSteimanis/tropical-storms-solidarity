@@ -1,2 +1,2 @@
-mean_aidsat,nNo,nSev,diff,diff_lo,diff_hi,diff_p
-58.482563,284,163,-17.777779,-33.284096,-2.2714601,.025725581
+mean_aidsat,nNo,nSev,diff,diff_lo,diff_hi,diff_p,x_star,x_star_lo,x_star_hi
+58.482563,284,163,-17.777779,-33.284096,-2.2714601,.025725581,220.27394,180.03441,260.51346

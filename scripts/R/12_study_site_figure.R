@@ -207,7 +207,12 @@ kd <- MASS::kde2d(dp[, 1], dp[, 2], n = 220, h = c(2, 2),
                   lims = c(phl_box["xmin"], phl_box["xmax"],
                            phl_box["ymin"], phl_box["ymax"]))
 kdf <- cbind(expand.grid(LON = kd$x, LAT = kd$y), z = as.vector(kd$z))
-cat("Panel a density: best-track points (excl. Haiyan) =", nrow(dp), "\n")
+n_density_storms <- length(unique(trk_pts[SID != haiyan_sid, SID]))
+cat("Panel a density: best-track points (excl. Haiyan) =", nrow(dp),
+    "from", n_density_storms, "storms\n")
+cat("  NOTE: the density population is every storm reaching >=108 kn inside the",
+    "115-135E / 4-22N box (landfalling or not), NOT the", nrow(trk_oth),
+    "landfalling subset.\n")
 
 # Nature-style conventions: the study box labeled with the zoom panel's letter
 # ("b"), italic gray geography labels.
@@ -215,6 +220,13 @@ p_a <- ggplot() +
   geom_sf(data = world, fill = land, color = NA) +
   geom_raster(data = kdf, aes(LON, LAT, fill = z)) +
   geom_sf(data = world, fill = NA, color = land_line, linewidth = 0.15) +
+  # Deliberately NOT overlaying the 12 Panay-crossing tracks. They were tried
+  # (2026-07-31) to substantiate the "12 of 111" claim, but the density is built
+  # from ~303 storms while the overlay would show 12, and readers take overlaid
+  # lines as instances of the shaded quantity. At this scale you can neither
+  # count 12 lines nor see them cross Panay, so it added a misreading risk
+  # without supporting the claim. The claim stays in Methods, where it is
+  # backed by the script's own diagnostics.
   geom_sf(data = trk_hy, color = col_hy, linewidth = 0.9) +
   geom_sf(data = study_box, fill = NA, color = "#1A1A1A", linewidth = 0.6) +
   annotate("text", x = hy_lab$LON, y = hy_lab$LAT - 1.1, label = "Haiyan (2013)",
@@ -230,8 +242,11 @@ p_a <- ggplot() +
   scale_fill_gradientn("Intense typhoon track density, 1950–2015",
     colours = c("#FFFFFF00", "#EFEDF5", "#BCBDDC", "#807DBA", "#54278F"),
     values = scales::rescale(c(0, 0.06, 0.3, 0.6, 1)),
+    # Kernel-density units are not interpretable on their own, so the bar carries
+    # relative end labels rather than numeric ticks (it was previously unlabelled).
+    breaks = range(kdf$z, na.rm = TRUE), labels = c("Lower", "Higher"),
     guide = guide_colorbar(title.position = "top", barwidth = unit(3, "cm"),
-                           barheight = unit(0.22, "cm"), label = FALSE)) +
+                           barheight = unit(0.22, "cm"))) +
   scale_x_continuous(breaks = seq(115, 135, 5)) +
   scale_y_continuous(breaks = seq(5, 20, 5)) +
   coord_sf(xlim = c(phl_box["xmin"], phl_box["xmax"]),

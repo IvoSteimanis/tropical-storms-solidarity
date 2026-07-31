@@ -49,6 +49,18 @@ testparm c.damages##c.damages
 *critique that turning point is outside the sample range not justified, see:
 nlcom (x_star: -_b[damages] / (2*_b[c.damages#c.damages]))
 
+* Capture the turning point and its delta-method CI immediately (the nlcom calls
+* below overwrite r(table)). These are exported to fig3_scalars.csv so the figure
+* annotation is built from the estimate rather than typed in by hand; the value
+* had drifted between the Stata label, the R label and the manuscript.
+matrix _xstab   = r(table)
+local x_star    = _xstab[1,1]
+local x_star_lo = _xstab[5,1]
+local x_star_hi = _xstab[6,1]
+di as text "Turning point (lab): " as result %6.2f `x_star' ///
+   as text "  95% CI [" as result %6.2f `x_star_lo' as text ", " ///
+   as result %6.2f `x_star_hi' as text "]"
+
 summ damages if e(sample)
 local xmin = r(min)
 local xmax = r(max)
@@ -92,8 +104,8 @@ marginsplot, ///
     graphregion(color(none)) ///
     plotregion(margin(small)) ///
     legend(off) ///
-    text(30 220 "Turning point @220 damage (95% CI [180, 260])", ///
-    size(medsmall) color(cranberry)  just(right)) 
+    text(30 220 "Turning point @`:di %3.0f `x_star'' damage (95% CI [`:di %3.0f `x_star_lo'', `:di %3.0f `x_star_hi''])", ///
+    size(medsmall) color(cranberry)  just(right))
 gr save "$working_ANALYSIS/results/intermediate/figure3_lab_short.gph", replace
 
 
@@ -463,6 +475,9 @@ preserve
     gen diff_lo = `diff_lo'
     gen diff_hi = `diff_hi'
     gen diff_p  = `diff_p'
+    gen x_star    = `x_star'
+    gen x_star_lo = `x_star_lo'
+    gen x_star_hi = `x_star_hi'
     export delimited "`INT'/fig3_scalars.csv", replace
 restore
 

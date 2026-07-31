@@ -23,6 +23,23 @@ tp_col    <- "#DC267F"   # magenta = moderate-exposure accent (ties to Fig 1)
 cat_col   <- "#1A1A1A"   # categorical bin means (neutral, distinct from tp magenta)
 ss_breaks <- c(83, 96, 113, 137)   # Saffir-Simpson Cat 2/3/4/5 lower bounds (kn)
 
+# Saffir-Simpson band labels along the top of each panel, so the dotted
+# boundaries are readable without the caption. Bands: Cat 1 <83, Cat 2 83-95,
+# Cat 3 96-112, Cat 4 113-136, Cat 5 >=137 kn.
+ss_labels <- function(xlo, xhi) {
+  edges <- c(xlo, ss_breaks, xhi)
+  data.frame(x = head(edges, -1) + diff(edges) / 2,
+             lab = paste0("Cat ", 1:5))
+}
+
+# Wind speed of each of the 30 study villages, drawn as a rug so the support of
+# the exposure gradient is visible: it is bimodal, with only two villages in the
+# Category 3 interior where the fitted minimum sits. Village means are already
+# exported for Figure 5; both Fig 2 panels are estimated on the same 30 villages
+# (14 / 2 / 14 across the three exposure bins, see fig2_bins_bin3.csv).
+village_ws <- fread(file.path(INT, "fig5_a_pts.csv"))[, .(ws)]
+stopifnot(nrow(village_ws) == 30)
+
 theme_ncc <- function(base = 9) {
   theme_classic(base_size = base, base_family = ff) %+replace%
     theme(
@@ -55,6 +72,12 @@ make_panel <- function(csv, tag, title, ytitle, ylim, ybreaks,
   ggplot(d, aes(ws, est)) +
     geom_vline(xintercept = ss_breaks, linetype = "dotted",
                colour = "grey80", linewidth = 0.3) +
+    geom_text(data = ss_labels(68, 147), aes(x = x, y = Inf, label = lab),
+              inherit.aes = FALSE, vjust = 1.3, size = 1.9,
+              colour = "grey45", family = ff) +
+    geom_rug(data = village_ws, aes(x = ws), inherit.aes = FALSE, sides = "b",
+             length = unit(0.03, "npc"), linewidth = 0.3, colour = "grey35",
+             alpha = 0.8) +
     geom_hline(yintercept = 0, colour = "grey70", linewidth = 0.3) +
     geom_vline(xintercept = tp, linetype = "dashed", colour = tp_col,
                linewidth = 0.4) +
@@ -64,9 +87,12 @@ make_panel <- function(csv, tag, title, ytitle, ylim, ybreaks,
                   colour = cat_col, linewidth = 0.4, inherit.aes = FALSE) +
     geom_point(data = cc, aes(x = ws, y = b), colour = cat_col, size = 1.6,
                inherit.aes = FALSE) +
-    geom_text(data = cc, aes(x = ws, y = ul, label = paste0("n=", n_obs)),
-              colour = cat_col, size = 1.8, family = ff, vjust = -0.7,
-              inherit.aes = FALSE) +
+    # white-backed so the turning-point line does not cut through the middle
+    # bin's count (it sits almost exactly on the Cat 3/4 boundary)
+    geom_label(data = cc, aes(x = ws, y = ul, label = paste0("n=", n_obs)),
+               colour = cat_col, size = 1.8, family = ff, vjust = -0.4,
+               fill = "white", label.size = 0,
+               label.padding = unit(0.4, "pt"), inherit.aes = FALSE) +
     annotate("text", x = tp + 1.5, y = lab_y,
              label = tp_lab, colour = tp_col, size = 3.0, hjust = 0,
              family = ff, lineheight = 0.95) +
@@ -144,7 +170,7 @@ ggsave(file.path(OUT, "figure2_field_ushape_windspeed_R.png"), fig2,
        width = 160, height = 76, units = "mm", dpi = 300, bg = "white")
 
 # SI figure: heterogeneity by economic vulnerability (former main-text Fig. 2c)
-ggsave(file.path(OUT, "figureS_het_vulnerability.png"), pC,
+ggsave(file.path(OUT, "figS07_het_vulnerability.png"), pC,
        width = 110, height = 82, units = "mm", dpi = 300, bg = "white")
 cat("wrote figure2_field_ushape_windspeed_R.png\n")
 
@@ -187,16 +213,20 @@ ab_scaffold <- list(
   labs(x = "Group damage severity", y = "Transfers (% of endowment)")
 )
 
-# Panel a: short-term transfers, turning point @220
+# Panel a: transfers by group damage, with the estimated turning point.
+# The turning point and its delta-method CI come from fig3_scalars.csv (Stata
+# nlcom) rather than being typed in, so the figure cannot drift from the text.
+tp3_lab <- sprintf("Turning point ≈ %.0f\n95%% CI [%.0f, %.0f]",
+                   sc$x_star, sc$x_star_lo, sc$x_star_hi)
 pA3 <- ggplot() +
-  annotate("segment", x = 220, xend = 220, y = 0, yend = 40,
+  annotate("segment", x = sc$x_star, xend = sc$x_star, y = 0, yend = 40,
            linetype = "dashed", colour = tp_col, linewidth = 0.4) +
   lab_curve() +
-  annotate("text", x = 220, y = 42, hjust = 0.5, vjust = 0,
-           label = "Turning point ≈ 220\n95% CI [180, 260]",
+  annotate("text", x = sc$x_star, y = 42, hjust = 0.5, vjust = 0,
+           label = tp3_lab,
            colour = tp_col, size = 2.6, family = ff, lineheight = 0.95) +
   ab_scaffold +
-  labs(title = "Lab: short-term transfers") +
+  labs(title = "Lab: transfers by group damage") +
   theme_ncc()
 
 # Panel b: diffusion of responsibility (two annotated points + stats box)
