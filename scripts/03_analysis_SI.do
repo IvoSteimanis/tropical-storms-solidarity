@@ -3,9 +3,9 @@ Project:     Moderate tropical cyclone exposure erodes solidarity needed for rec
 File:        03_analysis_SI.do
 Purpose:     Reproduce all results reported in the SI
 Input:       analysis_rdy.dta, litfe_u_shape.dta
-Output:      Figs. S1-S10, Tables S1-S33
+Output:      Figs. S1-S11, Tables S1-S23
 Authors:     Steimanis
-Date:        Created: 2024 | Last modified: March 2026
+Date:        Created: 2024 | Last modified: August 2026
 
 
 CONTENTS:
@@ -273,7 +273,7 @@ eststo attrition: reg returner i.ws_cat3 $balance2 if year==2012, cluster(sessio
 testparm 2.ws_cat3 3.ws_cat3, equal
 estadd local Fstat = cond(r(p)<0.01,"`:di %5.3f `=r(F)''***", ///
 cond(r(p)<0.05,"`:di %5.3f `=r(F)''**", ///
-cond(r(p)<0.1,"`:di %5.3f `=r(F)''*",  "`:di %5.3f `=r(F)'''")))
+cond(r(p)<0.1,"`:di %5.3f `=r(F)''*",  "`:di %5.3f `=r(F)''")))
 
 eststo attrition2: reg returner windspeed_predicted $balance2 if year==2012, cluster(session)
 
@@ -580,7 +580,7 @@ eststo table2_1: reg d_mean_transfer windspeed_predicted windspeed_sqr l4.mean_t
 testparm windspeed_predicted windspeed_sqr
 estadd local Fstat = cond(r(p)<0.01,"`:di %5.3f `=r(F)''***", ///
 cond(r(p)<0.05,"`:di %5.3f `=r(F)''**", ///
-cond(r(p)<0.1,"`:di %5.3f `=r(F)''*",  "`:di %5.3f `=r(F)'''")))
+cond(r(p)<0.1,"`:di %5.3f `=r(F)''*",  "`:di %5.3f `=r(F)''")))
 * Predicted profile: factor-notation twin so margins traces the quadratic (windspeed_sqr must move with windspeed)
 quietly reg d_mean_transfer c.windspeed_predicted##c.windspeed_predicted l4.mean_transfer, vce(cluster session)
 margins, at(windspeed_predicted = (70(5)145))
@@ -589,7 +589,7 @@ eststo table2_2: reg d_mean_transfer windspeed_predicted windspeed_sqr l4.mean_t
 test windspeed_predicted=windspeed_sqr=0 
 estadd local Fstat = cond(r(p)<0.01,"`:di %5.3f `=r(F)''***", ///
 cond(r(p)<0.05,"`:di %5.3f `=r(F)''**", ///
-cond(r(p)<0.1,"`:di %5.3f `=r(F)''*",  "`:di %5.3f `=r(F)'''")))
+cond(r(p)<0.1,"`:di %5.3f `=r(F)''*",  "`:di %5.3f `=r(F)''")))
 * Predicted profile: factor-notation twin (see note above)
 quietly reg d_mean_transfer c.windspeed_predicted##c.windspeed_predicted l4.mean_transfer d_exp_transfer, vce(cluster session)
 margins, at(windspeed_predicted = (70(5)145))
@@ -598,7 +598,7 @@ eststo table2_3: reg d_mean_transfer windspeed_predicted windspeed_sqr l4.mean_t
 test windspeed_predicted=windspeed_sqr=0
 estadd local Fstat = cond(r(p)<0.01,"`:di %5.3f `=r(F)''***", ///
 cond(r(p)<0.05,"`:di %5.3f `=r(F)''**", ///
-cond(r(p)<0.1,"`:di %5.3f `=r(F)''*",  "`:di %5.3f `=r(F)'''")))
+cond(r(p)<0.1,"`:di %5.3f `=r(F)''*",  "`:di %5.3f `=r(F)''")))
 * Predicted profile: factor-notation twin (see note above)
 quietly reg d_mean_transfer c.windspeed_predicted##c.windspeed_predicted l4.mean_transfer d_exp_transfer $x_changed $imbalances, vce(cluster session)
 margins, at(windspeed_predicted = (70(5)145))
@@ -607,7 +607,7 @@ eststo table2_4: reg d_mean_transfer windspeed_predicted windspeed_sqr l4.mean_t
 test windspeed_predicted=windspeed_sqr=0
 estadd local Fstat = cond(r(p)<0.01,"`:di %5.3f `=r(F)''***", ///
 cond(r(p)<0.05,"`:di %5.3f `=r(F)''**", ///
-cond(r(p)<0.1,"`:di %5.3f `=r(F)''*",  "`:di %5.3f `=r(F)'''")))
+cond(r(p)<0.1,"`:di %5.3f `=r(F)''*",  "`:di %5.3f `=r(F)''")))
 * Predicted profile: factor-notation twin (see note above)
 quietly reg d_mean_transfer c.windspeed_predicted##c.windspeed_predicted l4.mean_transfer d_exp_transfer $x_changed $imbalances [pweight=ipw_return], vce(cluster session)
 margins, at(windspeed_predicted = (70(5)145))
@@ -620,14 +620,14 @@ eststo table2_5: reg d_mean_transfer ib1.ws_cat3 l4.mean_transfer, vce(cluster s
 testparm 2.ws_cat3 3.ws_cat3, equal
 estadd local Fstat2 = cond(r(p)<0.01,"`:di %5.3f `=r(F)''***", ///
 cond(r(p)<0.05,"`:di %5.3f `=r(F)''**", ///
-cond(r(p)<0.1,"`:di %5.3f `=r(F)''*",  "`:di %5.3f `=r(F)'''")))
+cond(r(p)<0.1,"`:di %5.3f `=r(F)''*",  "`:di %5.3f `=r(F)''")))
 margins, at(ws_cat3 = (1(1)3))
 
 eststo table2_6: reg d_mean_transfer ib1.ws_cat3 l4.mean_transfer d_exp_transfer, vce(cluster session)
 testparm 2.ws_cat3 3.ws_cat3, equal
 estadd local Fstat2 = cond(r(p)<0.01,"`:di %5.3f `=r(F)''***", ///
 cond(r(p)<0.05,"`:di %5.3f `=r(F)''**", ///
-cond(r(p)<0.1,"`:di %5.3f `=r(F)''*",  "`:di %5.3f `=r(F)'''")))
+cond(r(p)<0.1,"`:di %5.3f `=r(F)''*",  "`:di %5.3f `=r(F)''")))
 margins, at(ws_cat3 = (1(1)3))
 
 
@@ -635,14 +635,14 @@ eststo table2_7: reg d_mean_transfer ib1.ws_cat3 l4.mean_transfer d_exp_transfer
 testparm 2.ws_cat3 3.ws_cat3, equal
 estadd local Fstat2 = cond(r(p)<0.01,"`:di %5.3f `=r(F)''***", ///
 cond(r(p)<0.05,"`:di %5.3f `=r(F)''**", ///
-cond(r(p)<0.1,"`:di %5.3f `=r(F)''*",  "`:di %5.3f `=r(F)'''")))
+cond(r(p)<0.1,"`:di %5.3f `=r(F)''*",  "`:di %5.3f `=r(F)''")))
 margins, at(ws_cat3 = (1(1)3))
 
 eststo table2_8: reg d_mean_transfer ib1.ws_cat3 l4.mean_transfer d_exp_transfer $x_changed $imbalances [pweight=ipw_return], vce(cluster session)
 testparm 2.ws_cat3 3.ws_cat3, equal
 estadd local Fstat2 = cond(r(p)<0.01,"`:di %5.3f `=r(F)''***", ///
 cond(r(p)<0.05,"`:di %5.3f `=r(F)''**", ///
-cond(r(p)<0.1,"`:di %5.3f `=r(F)''*",  "`:di %5.3f `=r(F)'''")))
+cond(r(p)<0.1,"`:di %5.3f `=r(F)''*",  "`:di %5.3f `=r(F)''")))
 margins, at(ws_cat3 = (1(1)3))
 
 
@@ -668,25 +668,25 @@ eststo robust_pt1: reg d_mean_transfer windspeed_predicted windspeed_sqr l4.mean
 test windspeed_predicted=windspeed_sqr=0
 estadd local Fstat = cond(r(p)<0.01,"`:di %5.3f `=r(F)''***", ///
 cond(r(p)<0.05,"`:di %5.3f `=r(F)''**", ///
-cond(r(p)<0.1,"`:di %5.3f `=r(F)''*",  "`:di %5.3f `=r(F)'''")))
+cond(r(p)<0.1,"`:di %5.3f `=r(F)''*",  "`:di %5.3f `=r(F)''")))
 
 eststo robust_pt2: reg d_mean_transfer windspeed_predicted windspeed_sqr l4.mean_transfer d_exp_transfer d_a3gov d_wealth $imbalances [pweight=ipw_return], vce(cluster session)
 test windspeed_predicted=windspeed_sqr=0
 estadd local Fstat = cond(r(p)<0.01,"`:di %5.3f `=r(F)''***", ///
 cond(r(p)<0.05,"`:di %5.3f `=r(F)''**", ///
-cond(r(p)<0.1,"`:di %5.3f `=r(F)''*",  "`:di %5.3f `=r(F)'''")))
+cond(r(p)<0.1,"`:di %5.3f `=r(F)''*",  "`:di %5.3f `=r(F)''")))
 
 eststo robust_pt3: reg d_mean_transfer ib1.ws_cat3 l4.mean_transfer d_exp_transfer d_a3gov d_wealth $imbalances, vce(cluster session)
 testparm 2.ws_cat3 3.ws_cat3, equal
 estadd local Fstat2 = cond(r(p)<0.01,"`:di %5.3f `=r(F)''***", ///
 cond(r(p)<0.05,"`:di %5.3f `=r(F)''**", ///
-cond(r(p)<0.1,"`:di %5.3f `=r(F)''*",  "`:di %5.3f `=r(F)'''")))
+cond(r(p)<0.1,"`:di %5.3f `=r(F)''*",  "`:di %5.3f `=r(F)''")))
 
 eststo robust_pt4: reg d_mean_transfer ib1.ws_cat3 l4.mean_transfer d_exp_transfer d_a3gov d_wealth $imbalances [pweight=ipw_return], vce(cluster session)
 testparm 2.ws_cat3 3.ws_cat3, equal
 estadd local Fstat2 = cond(r(p)<0.01,"`:di %5.3f `=r(F)''***", ///
 cond(r(p)<0.05,"`:di %5.3f `=r(F)''**", ///
-cond(r(p)<0.1,"`:di %5.3f `=r(F)''*",  "`:di %5.3f `=r(F)'''")))
+cond(r(p)<0.1,"`:di %5.3f `=r(F)''*",  "`:di %5.3f `=r(F)''")))
 
 esttab robust_pt1 robust_pt2 robust_pt3 robust_pt4 using "$working_ANALYSIS/results/tables/tableS07_panelB_robustness_post_treatment.tex",  keep(windspeed_predicted windspeed_sqr 2.ws_cat3 3.ws_cat3 L4.mean_transfer d_exp_transfer d_a3gov d_wealth) order(windspeed_predicted windspeed_sqr 2.ws_cat3 3.ws_cat3 L4.mean_transfer d_exp_transfer d_a3gov d_wealth) label se(%4.2f)  transform(ln*: exp(@) exp(@)) mgroups("Change in Average transfers", pattern(1 0 0 0) prefix(\multicolumn{@span}{c}{) suffix(}) span erepeat(\cmidrule(lr){@span}))  mtitles("Quadratic" "Quadratic (IPW)" "Categorical" "Categorical (IPW)") b(%4.2f) stats(N N_clust r2_a Fstat Fstat2, labels("N" "Cluster" "Adjusted R-squared" "F-Test: wind speed and wind speed squared" "F-Test: medium = high damages") fmt(%9.0fc %9.0fc %9.3f %9.3f %9.3f)) star(* 0.10 ** 0.05 *** 0.01) varlabels(_cons "Constant", elist(weight:_cons "{break}{hline @width}")) nonotes booktabs replace
 
@@ -1170,50 +1170,50 @@ eststo anchor1: reg d_mean_transfer windspeed_predicted windspeed_sqr l4.mean_tr
 testparm windspeed_predicted windspeed_sqr
 estadd local Fstat = cond(r(p)<0.01,"`:di %5.3f `=r(F)''***", ///
 cond(r(p)<0.05,"`:di %5.3f `=r(F)''**", ///
-cond(r(p)<0.1,"`:di %5.3f `=r(F)''*",  "`:di %5.3f `=r(F)'''")))
+cond(r(p)<0.1,"`:di %5.3f `=r(F)''*",  "`:di %5.3f `=r(F)''")))
 
 eststo anchor2: reg d_mean_transfer windspeed_predicted windspeed_sqr l4.mean_transfer d_exp_transfer $x_changed $imbalances [pweight=ipw_anchor], vce(cluster session)
 testparm windspeed_predicted windspeed_sqr
 estadd local Fstat = cond(r(p)<0.01,"`:di %5.3f `=r(F)''***", ///
 cond(r(p)<0.05,"`:di %5.3f `=r(F)''**", ///
-cond(r(p)<0.1,"`:di %5.3f `=r(F)''*",  "`:di %5.3f `=r(F)'''")))
+cond(r(p)<0.1,"`:di %5.3f `=r(F)''*",  "`:di %5.3f `=r(F)''")))
 
 eststo anchor3: reg d_mean_transfer windspeed_predicted windspeed_sqr l4.mean_transfer d_exp_transfer $x_changed $imbalances if anchor==0, vce(cluster session)
 testparm windspeed_predicted windspeed_sqr
 estadd local Fstat = cond(r(p)<0.01,"`:di %5.3f `=r(F)''***", ///
 cond(r(p)<0.05,"`:di %5.3f `=r(F)''**", ///
-cond(r(p)<0.1,"`:di %5.3f `=r(F)''*",  "`:di %5.3f `=r(F)'''")))
+cond(r(p)<0.1,"`:di %5.3f `=r(F)''*",  "`:di %5.3f `=r(F)''")))
 
 eststo anchor4: reg d_mean_transfer windspeed_predicted windspeed_sqr l4.mean_transfer d_exp_transfer $x_changed $imbalances if anchor==1, vce(cluster session)
 testparm windspeed_predicted windspeed_sqr
 estadd local Fstat = cond(r(p)<0.01,"`:di %5.3f `=r(F)''***", ///
 cond(r(p)<0.05,"`:di %5.3f `=r(F)''**", ///
-cond(r(p)<0.1,"`:di %5.3f `=r(F)''*",  "`:di %5.3f `=r(F)'''")))
+cond(r(p)<0.1,"`:di %5.3f `=r(F)''*",  "`:di %5.3f `=r(F)''")))
 
 * Wind-speed categorical specification (ws_cat3); partition identical to the former distance categories.
 eststo anchor5: reg d_mean_transfer ib1.ws_cat3 l4.mean_transfer d_exp_transfer $x_changed $imbalances, vce(cluster session)
 testparm 2.ws_cat3 3.ws_cat3, equal
 estadd local Fstat2 = cond(r(p)<0.01,"`:di %5.3f `=r(F)''***", ///
 cond(r(p)<0.05,"`:di %5.3f `=r(F)''**", ///
-cond(r(p)<0.1,"`:di %5.3f `=r(F)''*",  "`:di %5.3f `=r(F)'''")))
+cond(r(p)<0.1,"`:di %5.3f `=r(F)''*",  "`:di %5.3f `=r(F)''")))
 
 eststo anchor6: reg d_mean_transfer ib1.ws_cat3 l4.mean_transfer d_exp_transfer $x_changed $imbalances [pweight=ipw_anchor], vce(cluster session)
 testparm 2.ws_cat3 3.ws_cat3, equal
 estadd local Fstat2 = cond(r(p)<0.01,"`:di %5.3f `=r(F)''***", ///
 cond(r(p)<0.05,"`:di %5.3f `=r(F)''**", ///
-cond(r(p)<0.1,"`:di %5.3f `=r(F)''*",  "`:di %5.3f `=r(F)'''")))
+cond(r(p)<0.1,"`:di %5.3f `=r(F)''*",  "`:di %5.3f `=r(F)''")))
 
 eststo anchor7: reg d_mean_transfer ib1.ws_cat3 l4.mean_transfer d_exp_transfer $x_changed $imbalances if anchor==0, vce(cluster session)
 testparm 2.ws_cat3 3.ws_cat3, equal
 estadd local Fstat2 = cond(r(p)<0.01,"`:di %5.3f `=r(F)''***", ///
 cond(r(p)<0.05,"`:di %5.3f `=r(F)''**", ///
-cond(r(p)<0.1,"`:di %5.3f `=r(F)''*",  "`:di %5.3f `=r(F)'''")))
+cond(r(p)<0.1,"`:di %5.3f `=r(F)''*",  "`:di %5.3f `=r(F)''")))
 
 eststo anchor8: reg d_mean_transfer ib1.ws_cat3 l4.mean_transfer d_exp_transfer $x_changed $imbalances if anchor==1, vce(cluster session)
 testparm 2.ws_cat3 3.ws_cat3, equal
 estadd local Fstat2 = cond(r(p)<0.01,"`:di %5.3f `=r(F)''***", ///
 cond(r(p)<0.05,"`:di %5.3f `=r(F)''**", ///
-cond(r(p)<0.1,"`:di %5.3f `=r(F)''*",  "`:di %5.3f `=r(F)'''")))
+cond(r(p)<0.1,"`:di %5.3f `=r(F)''*",  "`:di %5.3f `=r(F)''")))
 
 esttab anchor1 anchor2 anchor3 anchor4 anchor5 anchor6 anchor7 anchor8 using "$working_ANALYSIS/results/tables/tableS14_anchor_vs_friend.tex",  keep(windspeed_predicted windspeed_sqr 2.ws_cat3 3.ws_cat3 L4.mean_transfer d_exp_transfer $x_changed) order(windspeed_predicted windspeed_sqr 2.ws_cat3 3.ws_cat3 L4.mean_transfer d_exp_transfer $x_changed) label se(%4.2f)  transform(ln*: exp(@) exp(@)) mgroups("Quadratic specification" "Levels specification", pattern(1 0 0 0 1 0 0 0) prefix(\multicolumn{@span}{c}{) suffix(}) span erepeat(\cmidrule(lr){@span}))  mtitles("Full sample"  "IPW" "Invitees" "Randomly invited" "Full sample"  "IPW" "Invitees" "Randomly invited") b(%4.2f) stats(N N_clust r2_a Fstat Fstat2, labels("N" "Cluster" "Adjusted R-squared" "F-Test: wind speed and wind speed squared" "F-Test: medium damages = high damages" ) fmt(%9.0fc %9.0fc %9.3f %9.3f %9.3f)) star(* 0.10 ** 0.05 *** 0.01) varlabels(_cons "Constant", elist(weight:_cons "{break}{hline @width}")) nonotes booktabs replace
 

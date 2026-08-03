@@ -125,7 +125,7 @@ grstyle set size 8pt: p#label p#boxlabel body small_body text_option axis_label 
 *   01_clean_data.do    -> processed/analysis_rdy.dta
 *   02_analysis_main.do -> main-text models, quoted numbers, and the margin/curve
 *                          CSV exports that the R scripts read to render Figs 2/3/5
-*   03_analysis_SI.do   -> SI tables (S1-S24) and SI figures (S2-S11)
+*   03_analysis_SI.do   -> SI tables (S1-S23) and SI figures (S2-S11)
 * IMPORTANT: run this BEFORE the R pipeline (run_R.R). The R rebuilds of Figures
 * 2, 3 and 5 read the CSVs written by 02 into results/intermediate/.
 do "$working_ANALYSIS/scripts/01_clean_data.do"

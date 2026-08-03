@@ -12,6 +12,11 @@ Fixes:
 import os, re, glob, shutil
 
 SRC_DIR = os.path.join(os.path.dirname(__file__), "..", "results", "tables")
+# DEPRECATED: this script is NOT part of the reproduction pipeline. DST_DIR below
+# points at a stale path ("2026 - NCC v4") that no longer exists (the current
+# submission folder is "2026 - NCC"). Table cleaning now happens upstream in the
+# do-files; do not re-point this path or re-add this script to run.do / the
+# master pipeline.
 DST_DIR = os.path.normpath(os.path.join(os.path.dirname(__file__),
     "..", "..", "submission", "2026 - NCC v4", "tables"))
 

@@ -610,11 +610,14 @@ alpha h11rela h11soon h11vuln h11pay h11enti h11eno h11corr h11self h11extra
 * alpha = 0.87
 
 lab var h11rela "People with good relations received more"
-lab var h11corr "People took at expense of others"
+* Label cleanup for the aid-corruption items. The raw data carries typos ("poeple",
+* "themselfes"); these lines fix them. NOTE: h11corr previously received the label
+* "People took at expense of others", which is h11eno's item, not its own. h11corr's raw
+* label is "unentitled persons received aid". Corrected 2026-07-31 -- the two are distinct
+* items and the swap made them look like a duplicated row in the PCA loadings table.
+lab var h11corr "Unentitled persons received aid"
 lab var h11self "Providers kept goods for themselves"
-* h11eno arrives from the raw data labelled "poeple took at expense of others", which is
-* a typo and near-identical to h11corr. Relabelled pending a check against the questionnaire.
-lab var h11eno "Took at the expense of others (second item)"
+lab var h11eno "People took at the expense of others"
 
 pca h11rela h11soon h11vuln h11pay h11enti h11eno h11corr h11self h11extra, comp(1)
 * Eigenvalue = 4.38, explains 49% of variation

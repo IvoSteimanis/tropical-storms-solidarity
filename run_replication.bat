@@ -42,7 +42,7 @@ echo.
 echo ============================================================================
 echo  Replication complete. Outputs:
 echo    results\figures\   (Figures 1-5 + SI figures)
-echo    results\tables\    (Tables S1-S33)
+echo    results\tables\    (Tables S1-S23)
 echo    results\R_output\  (headline numbers)
 echo ============================================================================
 pause
